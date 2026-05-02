@@ -47,9 +47,9 @@ const characters = [
     image: "assets/images/characters/calcharo.png",
     description:
       "DPS agressivo com alto dano explosivo e ritmo acelerado. Brilha em combates diretos, recompensando execução precisa com números elevados.",
-    build: ["Arma: Lustrous Razor", "Echo Set: Void Thunder", "Main Echo: Thundering Mephis", "Stats: Crit DMG / Electro DMG / ATK"],
-    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Energy Regen"],
-    talents: ["Resonance Liberation", "Basic Attack", "Forte Circuit", "Resonance Skill", "Intro Skill"],
+    build: ["Arma: Verdant Summit", "Echo Set: Void Thunder", "Main Echo: Nightmare - Thundering Mephis", "Stats: Crit Rate / (Electro DMG/ATK) / ATK"],
+    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Resonance Liberation" , "Energy Regen"],
+    talents: ["Forte Circuit","Resonance Liberation", "Resonance Skill", "Intro Skill", "Basic Attack"],
     team: ["Yinlin"],
   },
   {
@@ -60,9 +60,9 @@ const characters = [
     image: "assets/images/characters/encore.png",
     description:
       "DPS focada em dano elemental contínuo com forte presença em campo. Seus ataques causam grande pressão constante, sendo ideal para derreter inimigos ao longo do tempo.",
-    build: ["Arma: Cosmic Ripples", "Echo Set: Molten Rift", "Main Echo: Inferno Rider", "Stats: Crit Rate / Fusion DMG / ATK"],
-    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Energy Regen"],
-    talents: ["Basic Attack", "Resonance Liberation", "Resonance Skill", "Forte Circuit", "Intro Skill"],
+    build: ["Arma: Augment", "Echo Set: Molten Rift", "Main Echo: Nightmare - Inferno Rider", "Stats: Crit DMG / (ATK/Fusion DMG) / ATK"],
+    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Basic Attack DMG" ,"Energy Regen"],
+    talents: ["Resonance Liberation", "Resonance Skill", "Forte Circuit", "Intro Skill", "Basic Attack"],
     team: ["Sanhua"],
   },
   {
@@ -73,9 +73,9 @@ const characters = [
     image: "assets/images/characters/rover-havoc.png",
     description:
       "Versão ofensiva do protagonista com foco em dano Havoc. Equilibra mobilidade, versatilidade e dano consistente, sendo uma opção sólida para diversas composições, e uma dupla perfeita com a danjin.",
-    build: ["Arma: Emerald of Genesis", "Echo Set: Sun-sinking Eclipse", "Main Echo: Dreamless", "Stats: Crit Rate / Havoc DMG / ATK"],
-    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Energy Regen"],
-    talents: ["Forte Circuit", "Resonance Liberation", "Basic Attack", "Resonance Skill", "Intro Skill"],
+    build: ["Arma: Emerald of Genesis", "Echo Set: Havoc Eclipse", "Main Echo: Dreamless", "Stats: Crit Rate / (ATK/Havoc DMG) / ATK"],
+    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Resonance Liberation" , "Basic Attack DMG","Heavy Attack DMG"],
+    talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Basic Attack", "Intro Skill"],
     team: ["Danjin", "Shorekeeper"],
   },
   {
@@ -86,10 +86,10 @@ const characters = [
     image: "assets/images/characters/danjin.png",
     description:
       "DPS de alto risco e alta recompensa, sacrificando vida para causar dano massivo. Ideal para jogadores que buscam um estilo agressivo e preciso.",
-    build: ["Arma: Commando of Conviction", "Echo Set: Sun-sinking Eclipse", "Main Echo: Dreamless", "Stats: Crit DMG / Havoc DMG / ATK"],
-    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Basic Attack DMG"],
-    talents: ["Resonance Skill", "Forte Circuit", "Basic Attack", "Resonance Liberation", "Intro Skill"],
-    team: ["Rover (Havoc)", "Shorekeeper"],
+    build: ["Arma: Emerald of Genesis", "Echo Set: Midnight Veil", "Main Echo: Nightmare - Impermanence Heron", "Stats: Crit Rate / (Havoc DMG/ATK) / ATK"],
+    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Basic Attack DMG", "Heavy Attack DMG", "Energy Regen"],
+    talents: ["Forte Circuit","Resonance Skill","Resonance Liberation","Basic Attack", "Intro Skill"],
+    team: ["Rover", "Shorekeeper"],
   },
 
   // Sub-DPS
@@ -101,9 +101,9 @@ const characters = [
     image: "assets/images/characters/cantarella.png",
     description:
       "Personagem versátil que combina suporte e dano secundário. Oferece utilidade para o time enquanto contribui com dano consistente fora de campo, ajudando na fluidez das rotações.",
-    build: ["Arma: Red Spring", "Echo Set: Sun-sinking Eclipse", "Main Echo: Dreamless", "Stats: Crit Rate / Havoc DMG / ATK"],
-    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Energy Regen"],
-    talents: ["Resonance Skill", "Forte Circuit", "Resonance Liberation", "Basic Attack", "Intro Skill"],
+    build: ["Arma: Whispers of Sirens", "Echo Set: Moonlit Clouds", "Main Echo: Impermanence Heron", "Stats: Crit Rate / Havoc DMG / ATK"],
+    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Basic Attack DMG", "Energy Regen"],
+    talents: ["Forte Circuit", "Resonance Skill", "Resonance Liberation", "Basic Attack", "Intro Skill"],
     team: ["Jinhsi"],
   },
   {
@@ -114,9 +114,9 @@ const characters = [
     image: "assets/images/characters/yinlin.png",
     description:
       "Sub-DPS focada em dano elétrico fora de campo, com excelente sinergia em equipes voltadas para reações e dano contínuo. Amplifica o potencial ofensivo do time com facilidade.",
-    build: ["Arma: Stringmaster", "Echo Set: Void Thunder", "Main Echo: Tempest Mephis", "Stats: Crit Rate / Electro DMG / ATK"],
-    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Energy Regen"],
-    talents: ["Resonance Liberation", "Resonance Skill", "Forte Circuit", "Basic Attack", "Intro Skill"],
+    build: ["Arma: Stringmaster", "Echo Set: Empyrean Anthem", "Main Echo: Hecate", "Stats: Crit Rate / Electro DMG / ATK"],
+    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Resonance Skill", "Energy Regen"],
+    talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Intro Skill", "Basic Attack"],
     team: ["Calcharo"],
   },
   {
@@ -127,9 +127,9 @@ const characters = [
     image: "assets/images/characters/sanhua.png",
     description:
       "Oferece dano rápido e buffs valiosos para o time. Excelente em rotações curtas, contribuindo com utilidade e dano sem exigir muito tempo em campo.",
-    build: ["Arma: Lunar Cutter", "Echo Set: Freezing Frost", "Main Echo: Lampylumen Myriad", "Stats: Energy Regen / Glacio DMG / ATK"],
-    secondaryStats: ["Energy Regen", "Crit Rate", "Crit DMG", "ATK%"],
-    talents: ["Resonance Skill", "Forte Circuit", "Resonance Liberation", "Basic Attack", "Intro Skill"],
+    build: ["Arma: Emerald of Genesis", "Echo Set: Moonlit Clouds", "Main Echo: Impermanence Heron", "Stats: Crit Rate / (ATK/Glacio DMG) / ATK"],
+    secondaryStats: ["Crit Rate", "Crit DMG", "Heavy Attack DMG", "Resonance Liberation", "Energy Regen"],
+    talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Intro Skill", "Basic Attack"],
     team: ["Encore"],
   },
   {
@@ -140,9 +140,9 @@ const characters = [
     image: "assets/images/characters/mortefi.png",
     description:
       "Especialista em dano fora de campo com ataques coordenados. Aumenta significativamente o dano do time enquanto mantém presença ofensiva constante.",
-    build: ["Arma: Static Mist", "Echo Set: Molten Rift", "Main Echo: Inferno Rider", "Stats: Energy Regen / Fusion DMG / ATK"],
+    build: ["Arma: Static Mist", "Echo Set: Moonlit Clouds", "Main Echo: Impermanence Heron", "Stats: Crit Rate / (Energy Regen/Fusion DMG) / ATK"],
     secondaryStats: ["Energy Regen", "Crit Rate", "Crit DMG", "ATK%"],
-    talents: ["Resonance Liberation", "Resonance Skill", "Forte Circuit", "Basic Attack", "Intro Skill"],
+    talents: ["Resonance Liberation", "Forte Circuit", "Resonance Skill", "Basic Attack", "Intro Skill"],
     team: ["Jiyan"],
   },
 
@@ -155,10 +155,10 @@ const characters = [
     image: "assets/images/characters/shorekeeper.png",
     description:
       "Especialista em sustentação de equipe, fornecendo cura constante, utilidades defensivas e fornecendo critico e dano. Ideal para composições que precisam de estabilidade em combates prolongados.",
-    build: ["Arma: Stellar Symphony", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats: Energy Regen / HP / Healing Bonus"],
-    secondaryStats: ["Energy Regen", "HP%", "Healing Bonus", "Crit Rate"],
-    talents: ["Resonance Liberation", "Resonance Skill", "Forte Circuit", "Intro Skill", "Basic Attack"],
-    team: ["Verina", "Mornye"],
+    build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats: Crit DMG / (Energy Regen/Spectrum DMG) / HP"],
+    secondaryStats: ["Energy Regen 230%", "HP%", "Crit DMG"],
+    talents: ["Resonance Skill", "Resonance Liberation", "Intro Skill", "Basic Attack", "Forte Circuit"],
+    team: ["Verina", "Mornye", "Baizhi"],
   },
   {
     name: "Verina",
@@ -168,10 +168,10 @@ const characters = [
     image: "assets/images/characters/verina.png",
     description:
       "Suporte completo que combina cura eficiente com buffs para a equipe. Essencial para manter o time saudável enquanto aumenta o desempenho geral em combate.",
-    build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Bell-Borne Geochelone", "Stats: Energy Regen / HP / Healing Bonus"],
-    secondaryStats: ["Energy Regen", "HP%", "Healing Bonus", "ATK%"],
-    talents: ["Resonance Liberation", "Forte Circuit", "Resonance Skill", "Intro Skill", "Basic Attack"],
-    team: ["Shorekeeper", "Mornye"],
+    build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats:  Healing Bonus / Energy Regen / ATK"],
+    secondaryStats: ["Energy Regen", "ATK%"],
+    talents: ["Resonance Liberation", "Forte Circuit", "Resonance Skill", "Basic Attack", "Intro Skill"],
+    team: ["Shorekeeper", "Mornye", "Baizhi"],
   },
   {
     name: "Mornye",
@@ -181,10 +181,23 @@ const characters = [
     image: "assets/images/characters/mornye.png",
     description:
       "Suporte focada em sustentação e resistência da equipe. Fornece cura consistente enquanto aumenta a defesa dos aliados, tornando o time mais estável e preparado para combates prolongados.",
-    build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Bell-Borne Geochelone", "Stats: Energy Regen / HP / Support"],
-    secondaryStats: ["Energy Regen", "HP%", "DEF%", "Healing Bonus"],
-    talents: ["Resonance Skill", "Resonance Liberation", "Forte Circuit", "Intro Skill", "Basic Attack"],
-    team: ["Jiyan", "Encore", "Danjin"],
+    build: ["Arma: Discord", "Echo Set: Halo of Starry Radiance", "Main Echo: Reactor Husk", "Stats: Healing Bonus / (Energy Regen/DEF%) / DEF"],
+    secondaryStats: ["Energy Regen 260%", "3000+ DEF%"],
+    talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Basic Attack", "Intro Skill"],
+    team: ["Shorekeeper", "Verina", "Baizhi"],
+  },
+  {
+    name: "Baizhi",
+    role: "Support",
+    element: "Glacio",
+    combatFunction: "Support",
+    image: "assets/images/characters/baizhi.png",
+    description:
+      "Suporte focada em cura contínua e geração de energia. Aplica sustain fora de campo e concede buff ao próximo personagem, garantindo estabilidade e fluidez nas rotações.",
+    build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Bell-Borne Geochelone", "Stats: Healing Bonus / Energy Regen / HP"],
+    secondaryStats: ["Energy Regen 220%", "30000 HP%"],
+    talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Basic Attack", "Intro Skill"],
+    team: ["Shorekeeper", "Verina", "Mornye"],
   }
 ];
 
