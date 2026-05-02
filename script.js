@@ -244,14 +244,16 @@ function getUniqueOptions(key) {
 function getUniqueTeamOptions() {
   return [
     "Todos",
+    "Supports",
     ...characters
-      .filter((character) => character.combatFunction === "DPS")
+      .filter((character) => character.combatFunction === "DPS" && character.name !== "Danjin")
       .map((character) => character.name)
       .sort(),
   ];
 }
 
 function getFilteredCharacters() {
+  const isSupportTeamSelected = activeFilters.teamLeader === "Supports";
   const selectedLeader = characters.find(
     (character) => character.name === activeFilters.teamLeader
   );
@@ -264,6 +266,7 @@ function getFilteredCharacters() {
       activeFilters.element === "Todos" || character.element === activeFilters.element;
     const matchesTeam =
       activeFilters.teamLeader === "Todos" ||
+      (isSupportTeamSelected && character.combatFunction === "Support") ||
       selectedTeamNames.includes(character.name);
 
     return matchesElement && matchesTeam;
