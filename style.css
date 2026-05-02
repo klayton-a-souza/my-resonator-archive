@@ -729,6 +729,39 @@ h1 {
   line-height: 1.4;
 }
 
+.secondary-stats {
+  margin-bottom: 30px;
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.055);
+}
+
+.secondary-stats > span {
+  display: block;
+  margin-bottom: 14px;
+  color: var(--accent);
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.secondary-stats div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.secondary-stats strong {
+  padding: 9px 12px;
+  border: 1px solid rgba(98, 246, 255, 0.22);
+  border-radius: 8px;
+  background: rgba(98, 246, 255, 0.08);
+  color: #e7edf7;
+  font-size: 0.9rem;
+}
+
 .talent-focus {
   margin-bottom: 30px;
   padding: 20px;
