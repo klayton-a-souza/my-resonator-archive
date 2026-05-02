@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Wuthering Waves | Resonator Showcase</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="site-shell">
+      <section class="hero-section" aria-labelledby="page-title">
+        <div class="cinematic-bg" aria-hidden="true"></div>
+        <div class="ambient-grid" aria-hidden="true"></div>
+
+        <header class="topbar">
+          <a class="brand" href="#" aria-label="Wuthering Waves Showcase">
+            <span class="brand-mark"></span>
+            <span>Resonator Archive</span>
+          </a>
+          <nav class="nav-links" aria-label="Secoes">
+            <a href="#characters">Personagens</a>
+          </nav>
+        </header>
+
+        <div class="hero-content">
+          <p class="eyebrow">Wuthering Waves arquivo</p>
+          <h1 id="page-title">Escolha seu Resonator</h1>
+          <p class="hero-copy">
+            Explore builds, composicoes e estilos de combate em uma vitrine
+            interativa.
+          </p>
+        </div>
+
+        <div class="character-stage" id="characters">
+          <div class="section-heading">
+            <div>
+              <p>Arquivo tatico</p>
+              <h2>Personagens em destaque</h2>
+            </div>
+            <button
+              class="filters-toggle"
+              id="filtersToggle"
+              type="button"
+              aria-expanded="false"
+              aria-controls="filtersPanel"
+            >
+              Filtros
+            </button>
+          </div>
+          <div class="filters-panel" id="filtersPanel" aria-label="Filtros de personagens" hidden>
+            <div class="filter-group">
+              <span>Elemento</span>
+              <div class="filter-options" id="elementFilters"></div>
+            </div>
+            <div class="filter-group">
+              <span>Time</span>
+              <div class="filter-options" id="teamFilters"></div>
+            </div>
+            <p class="filter-count" id="filterCount"></p>
+          </div>
+          <div class="characters-grid" id="charactersGrid" aria-live="polite"></div>
+        </div>
+      </section>
+    </main>
+
+    <div class="details-overlay" id="detailsOverlay" aria-hidden="true"></div>
+
+    <aside
+      class="details-panel"
+      id="detailsPanel"
+      aria-hidden="true"
+      aria-labelledby="detailsTitle"
+      role="dialog"
+    >
+      <button class="close-button" id="closeDetailsButton" type="button" aria-label="Fechar detalhes">
+        <span></span>
+        <span></span>
+      </button>
+      <div class="details-media">
+        <img id="detailsImage" src="" alt="" />
+      </div>
+      <div class="details-content">
+        <p class="details-kicker" id="detailsRole"></p>
+        <h2 id="detailsTitle"></h2>
+        <p class="details-description" id="detailsDescription"></p>
+        <button class="build-link-button" id="buildsButton" type="button">
+          Builds
+        </button>
+
+        <section class="info-block" id="details">
+          <h3>Build recomendada</h3>
+          <ul id="detailsBuild"></ul>
+        </section>
+
+        <section class="info-block" id="teams">
+          <h3>Time ideal</h3>
+          <div class="team-list" id="detailsTeam"></div>
+        </section>
+      </div>
+    </aside>
+
+    <script src="script.js"></script>
+  </body>
+</html>

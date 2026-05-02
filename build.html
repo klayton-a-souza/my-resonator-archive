@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build | Resonator Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="build-page">
+      <div class="cinematic-bg" aria-hidden="true"></div>
+      <div class="ambient-grid" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <a class="brand" href="index.html" aria-label="Voltar para Resonator Archive">
+          <span class="brand-mark"></span>
+          <span>Resonator Archive</span>
+        </a>
+        <nav class="nav-links" aria-label="Navegacao">
+          <a href="index.html">Personagens</a>
+        </nav>
+      </header>
+
+      <section class="build-shell" id="buildRoot" aria-live="polite"></section>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+      function getCharacterNameFromUrl() {
+        const params = new URLSearchParams(window.location.search);
+
+        return params.get("char");
+      }
+
+      function findCharacterByName(name) {
+        return characters.find((character) => character.name === name);
+      }
+
+      function getBuildValue(character, label) {
+        const item = character.build.find((buildItem) => buildItem.startsWith(`${label}:`));
+
+        return item ? item.replace(`${label}:`, "").trim() : "Nao informado";
+      }
+
+      function getTalentFocus(character) {
+        return character.talents && character.talents.length > 0
+          ? character.talents
+          : ["Talentos nao informados"];
+      }
+
+      function renderBuildError(root, message) {
+        root.innerHTML = `
+          <article class="build-card build-error">
+            <p class="eyebrow">Build nao encontrada</p>
+            <h1>Ops</h1>
+            <p>${message}</p>
+            <a class="build-back-link" href="index.html">Voltar para personagens</a>
+          </article>
+        `;
+      }
+
+      function renderCharacterBuild(character) {
+        const root = document.querySelector("#buildRoot");
+        const weapon = getBuildValue(character, "Arma");
+        const echoSet = getBuildValue(character, "Echo Set");
+        const stats = getBuildValue(character, "Stats");
+        const talents = getTalentFocus(character);
+
+        root.innerHTML = `
+          <article class="build-card">
+            <div class="build-portrait">
+              <img src="${character.image}" alt="${character.name}" />
+            </div>
+            <div class="build-content">
+              <p class="eyebrow">${character.role}</p>
+              <h1>${character.name}</h1>
+              <div class="build-stats-grid">
+                <section class="build-stat">
+                  <span>Arma</span>
+                  <strong>${weapon}</strong>
+                </section>
+                <section class="build-stat">
+                  <span>Echo Set</span>
+                  <strong>${echoSet}</strong>
+                </section>
+                <section class="build-stat">
+                  <span>Stats principais</span>
+                  <strong>${stats}</strong>
+                </section>
+              </div>
+              <section class="talent-focus">
+                <span>Talentos para focar</span>
+                <ol>
+                  ${talents.map((talent) => `<li>${talent}</li>`).join("")}
+                </ol>
+              </section>
+              <a class="build-back-link" href="index.html">Voltar para personagens</a>
+            </div>
+          </article>
+        `;
+      }
+
+      function initBuildPage() {
+        const root = document.querySelector("#buildRoot");
+        const characterName = getCharacterNameFromUrl();
+
+        if (!characterName) {
+          renderBuildError(root, "Nenhum personagem foi informado na URL.");
+          return;
+        }
+
+        const character = findCharacterByName(characterName);
+
+        if (!character) {
+          renderBuildError(root, `Personagem "${characterName}" nao encontrado.`);
+          return;
+        }
+
+        renderCharacterBuild(character);
+      }
+
+      initBuildPage();
+    </script>
+  </body>
+</html>
