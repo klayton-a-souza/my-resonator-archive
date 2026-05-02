@@ -444,6 +444,7 @@ h1 {
   width: min(520px, 100vw);
   height: 100vh;
   overflow-y: auto;
+  overflow-x: hidden;
   border-left: 1px solid rgba(98, 246, 255, 0.28);
   background: var(--panel-strong);
   box-shadow: var(--shadow);
@@ -528,7 +529,9 @@ h1 {
 
 .details-content h2 {
   font-family: "Orbitron", sans-serif;
-  font-size: clamp(2.2rem, 7vw, 4.6rem);
+  font-size: clamp(2.2rem, 6vw, 4.1rem);
+  overflow-wrap: anywhere;
+  word-break: break-word;
   text-transform: uppercase;
 }
 
