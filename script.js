@@ -171,7 +171,7 @@ const characters = [
     build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats: Crit DMG / (Energy Regen/Spectrum DMG) / HP"],
     secondaryStats: ["Energy Regen 230%", "HP%", "Crit DMG"],
     talents: ["Resonance Skill", "Resonance Liberation", "Intro Skill", "Basic Attack", "Forte Circuit"],
-    team: ["Verina", "Mornye", "Baizhi", "Buling", "Rover Aero"],
+    team: ["Verina", "Mornye", "Baizhi", "Buling"],
   },
   {
     name: "Verina",
@@ -184,7 +184,7 @@ const characters = [
     build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats:  Healing Bonus / Energy Regen / ATK"],
     secondaryStats: ["Energy Regen", "ATK%"],
     talents: ["Resonance Liberation", "Forte Circuit", "Resonance Skill", "Basic Attack", "Intro Skill"],
-    team: ["Shorekeeper", "Mornye", "Baizhi", "Buling", "Rover Aero"],
+    team: ["Shorekeeper", "Mornye", "Baizhi", "Buling"],
   },
   {
     name: "Mornye",
@@ -197,7 +197,7 @@ const characters = [
     build: ["Arma: Discord", "Echo Set: Halo of Starry Radiance", "Main Echo: Reactor Husk", "Stats: Healing Bonus / (Energy Regen/DEF%) / DEF"],
     secondaryStats: ["Energy Regen 260%", "3000+ DEF%"],
     talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Basic Attack", "Intro Skill"],
-    team: ["Shorekeeper", "Verina", "Baizhi", "Buling", "Rover Aero"],
+    team: ["Shorekeeper", "Verina", "Baizhi", "Buling"],
   },
   {
     name: "Baizhi",
@@ -210,20 +210,7 @@ const characters = [
     build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Bell-Borne Geochelone", "Stats: Healing Bonus / Energy Regen / HP"],
     secondaryStats: ["Energy Regen 220%", "30000 HP%"],
     talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Basic Attack", "Intro Skill"],
-    team: ["Shorekeeper", "Verina", "Mornye", "Buling", "Rover Aero"],
-  },
-  {
-    name: "Rover Aero",
-    role: "Aero Support",
-    element: "Aero",
-    combatFunction: "Support",
-    image: "assets/images/characters/rover-aero.png",
-    description:
-      "Suporte focado em amplificar dano Aero e fortalecer rotações ofensivas. Atualmente possui forte sinergia com Jiyan, oferecendo utilidade e aumento de dano para equipes Aero, além de potencial para futuras composições com Cartethyia e Ciaccona.",
-    build: ["Arma: Bloodpact's Pledge", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats: Crit Rate / Aero DMG / ATK"],
-    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Resonance Skill DMG", "Energy Regen - 140%" ],
-    talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Basic Attack", "Intro Skill"],
-    team: ["Jiyan", "Mortefi"],
+    team: ["Shorekeeper", "Verina", "Mornye", "Buling"],
   },
   {
     name: "Buling",
@@ -236,7 +223,7 @@ const characters = [
     build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats: ATK / (Energy Regen/ATK) / ATK"],
     secondaryStats: ["Energy Regen - 150%", "ATK% - 1800"],
     talents: ["Basic Attack", "Forte Circuit", "Resonance Liberation", "Resonance Skill", "Intro Skill"],
-    team: ["Shorekeeper", "Verina", "Mornye", "Baizhi", "Rover Aero"],
+    team: ["Shorekeeper", "Verina", "Mornye", "Baizhi"],
   }
 ];
 
