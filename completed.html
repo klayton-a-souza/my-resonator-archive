@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Progressao de conta | Resonator Archive</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <main class="completed-page">
+      <div class="cinematic-bg" aria-hidden="true"></div>
+      <div class="ambient-grid" aria-hidden="true"></div>
+
+      <header class="topbar">
+        <a class="brand" href="index.html" aria-label="Voltar para Resonator Archive">
+          <span class="brand-mark"></span>
+          <span>Resonator Archive</span>
+        </a>
+        <nav class="nav-links" aria-label="Navegacao">
+          <a href="index.html">Personagens</a>
+          <a href="completed.html">Progressao</a>
+        </nav>
+      </header>
+
+      <section class="completed-shell" aria-labelledby="completedTitle">
+        <div class="completed-heading">
+          <p class="eyebrow">Builds da conta</p>
+          <h1 id="completedTitle">Progressao de conta</h1>
+        </div>
+
+        <div class="account-filter-bar" aria-label="Filtro de progresso">
+          <div class="filter-options">
+            <button class="filter-button is-active" type="button" data-progress-filter="all">
+              Todos
+            </button>
+            <button class="filter-button" type="button" data-progress-filter="completed">
+              Finalizados
+            </button>
+            <button class="filter-button" type="button" data-progress-filter="pending">
+              Pendentes
+            </button>
+          </div>
+          <p class="filter-count" id="accountProgressCount"></p>
+        </div>
+
+        <div class="completed-grid" id="completedGrid" aria-live="polite"></div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+    <script>
+      const completedGrid = document.querySelector("#completedGrid");
+      const accountProgressCount = document.querySelector("#accountProgressCount");
+      const progressFilterButtons = document.querySelectorAll("[data-progress-filter]");
+      let activeProgressFilter = "all";
+
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function getProgressStorageKey(character) {
+        return `ww-build-checklist:${character.name}`;
+      }
+
+      function getDefaultBuildProgress() {
+        return {
+          characterLevel: false,
+          weaponLevel: false,
+          talents: false,
+          echoes: false,
+        };
+      }
+
+      function loadBuildProgress(character) {
+        const defaults = getDefaultBuildProgress();
+
+        try {
+          const savedProgress = localStorage.getItem(getProgressStorageKey(character));
+
+          if (!savedProgress) {
+            return defaults;
+          }
+
+          return {
+            ...defaults,
+            ...JSON.parse(savedProgress),
+          };
+        } catch {
+          return defaults;
+        }
+      }
+
+      function getBuildProgressPercent(character) {
+        const progress = loadBuildProgress(character);
+        const completedItems = Object.values(progress).filter(Boolean).length;
+
+        return Math.round((completedItems / 4) * 100);
+      }
+
+      function getFilteredProgressCharacters() {
+        return characters
+          .filter((character) => {
+            const progressPercent = getBuildProgressPercent(character);
+
+            if (activeProgressFilter === "completed") {
+              return progressPercent === 100;
+            }
+
+            if (activeProgressFilter === "pending") {
+              return progressPercent < 100;
+            }
+
+            return true;
+          })
+          .sort((firstCharacter, secondCharacter) =>
+            firstCharacter.name.localeCompare(secondCharacter.name, "pt-BR")
+          );
+      }
+
+      function getEmptyStateMessage() {
+        if (activeProgressFilter === "completed") {
+          return {
+            eyebrow: "Nenhuma build completa",
+            title: "Finalize os 4 checks de uma build",
+            copy: "Quando um personagem chegar em 100%, ele aparece neste filtro.",
+          };
+        }
+
+        if (activeProgressFilter === "pending") {
+          return {
+            eyebrow: "Tudo finalizado",
+            title: "Nao ha builds pendentes",
+            copy: "Todos os personagens cadastrados ja chegaram em 100%.",
+          };
+        }
+
+        return {
+          eyebrow: "Nenhum personagem",
+          title: "Nada para exibir",
+          copy: "Adicione personagens ao arquivo para acompanhar a progressao.",
+        };
+      }
+
+      function renderAccountProgress() {
+        const filteredCharacters = getFilteredProgressCharacters();
+        const completedCharactersCount = characters.filter(
+          (character) => getBuildProgressPercent(character) === 100
+        ).length;
+
+        accountProgressCount.textContent =
+          `${completedCharactersCount} finalizados de ${characters.length} personagens`;
+
+        if (filteredCharacters.length === 0) {
+          const emptyState = getEmptyStateMessage();
+
+          completedGrid.innerHTML = `
+            <article class="completed-empty">
+              <p class="eyebrow">${emptyState.eyebrow}</p>
+              <h2>${emptyState.title}</h2>
+              <p>${emptyState.copy}</p>
+              <a class="build-back-link" href="index.html">Voltar para personagens</a>
+            </article>
+          `;
+          return;
+        }
+
+        completedGrid.innerHTML = filteredCharacters
+          .map((character) => {
+            const buildHref = `build.html?char=${encodeURIComponent(character.name)}`;
+            const progressPercent = getBuildProgressPercent(character);
+            const isCompleted = progressPercent === 100;
+            const statusLabel = isCompleted ? "Build completa" : "Em progresso";
+
+            return `
+              <article class="completed-card ${isCompleted ? "is-complete" : "is-pending"}">
+                <img src="${escapeHtml(character.image)}" alt="${escapeHtml(character.name)}" />
+                <div class="completed-card-content">
+                  <p>${escapeHtml(character.role)}</p>
+                  <h2>${escapeHtml(character.name)}</h2>
+                  <div class="completed-card-progress">
+                    <div class="completed-badge ${isCompleted ? "" : "is-pending"}">
+                      <span>${statusLabel}</span>
+                      <strong>${progressPercent}%</strong>
+                    </div>
+                    <div class="progress-track details-progress-track">
+                      <span style="width: ${progressPercent}%"></span>
+                    </div>
+                  </div>
+                  <a class="build-back-link" href="${buildHref}">Ver build</a>
+                </div>
+              </article>
+            `;
+          })
+          .join("");
+      }
+
+      progressFilterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          activeProgressFilter = button.dataset.progressFilter;
+
+          progressFilterButtons.forEach((filterButton) => {
+            filterButton.classList.toggle("is-active", filterButton === button);
+          });
+
+          renderAccountProgress();
+        });
+      });
+
+      renderAccountProgress();
+    </script>
+  </body>
+</html>
