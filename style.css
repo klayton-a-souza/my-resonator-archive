@@ -567,7 +567,6 @@ h1 {
 
 .build-link-button {
   width: 100%;
-  margin-bottom: 24px;
 }
 
 .build-link-button:hover,
@@ -584,6 +583,41 @@ h1 {
 .info-block {
   padding: 22px 0;
   border-top: 1px solid var(--line);
+}
+
+.details-progress {
+  display: grid;
+  gap: 12px;
+  margin: 18px 0 24px;
+  padding: 16px;
+  border: 1px solid rgba(98, 246, 255, 0.2);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.details-progress-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.details-progress-header span {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.details-progress-header strong {
+  color: #ffffff;
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.2rem;
+}
+
+.details-progress-track {
+  height: 12px;
 }
 
 .info-block h3 {
@@ -654,6 +688,11 @@ h1 {
   animation: fadeRise 520ms ease-in-out both;
 }
 
+.build-progress-card {
+  grid-template-columns: minmax(280px, 0.72fr) minmax(360px, 1fr);
+  width: min(980px, 100%);
+}
+
 .build-card.build-error {
   display: block;
   max-width: 680px;
@@ -692,6 +731,14 @@ h1 {
   object-position: center top;
 }
 
+.build-progress-hero span {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
 .build-content {
   display: flex;
   flex-direction: column;
@@ -699,8 +746,147 @@ h1 {
   padding: clamp(28px, 5vw, 58px);
 }
 
+.build-progress-card .build-content {
+  justify-content: center;
+}
+
 .build-content h1 {
   margin-bottom: 30px;
+  font-size: clamp(2.4rem, 5vw, 4.8rem);
+  overflow-wrap: anywhere;
+}
+
+.build-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 20px;
+  margin-bottom: 22px;
+}
+
+.build-title-row h1 {
+  margin-bottom: 0;
+}
+
+.build-total-badge {
+  display: grid;
+  min-width: 122px;
+  padding: 14px 16px;
+  border: 1px solid rgba(244, 198, 106, 0.36);
+  border-radius: 8px;
+  background: rgba(244, 198, 106, 0.1);
+  text-align: right;
+}
+
+.build-total-badge span {
+  color: var(--accent-2);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.build-total-badge strong {
+  color: #ffffff;
+  font-family: "Orbitron", sans-serif;
+  font-size: 2rem;
+  line-height: 1.1;
+}
+
+.build-progress-hero {
+  display: grid;
+  gap: 14px;
+  margin-bottom: 18px;
+  padding: 20px;
+  border: 1px solid rgba(98, 246, 255, 0.22);
+  border-radius: 8px;
+  background:
+    linear-gradient(135deg, rgba(98, 246, 255, 0.12), transparent 55%),
+    rgba(255, 255, 255, 0.055);
+}
+
+.build-progress-hero strong {
+  display: block;
+  margin-top: 6px;
+  color: #ffffff;
+  font-size: clamp(1.05rem, 2vw, 1.35rem);
+}
+
+.progress-track {
+  width: 100%;
+  height: 10px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.progress-track span {
+  display: block;
+  width: 0;
+  height: 100%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, var(--accent), var(--accent-2));
+  box-shadow: 0 0 18px rgba(98, 246, 255, 0.28);
+  transition: width var(--ease);
+}
+
+.progress-track-large {
+  height: 14px;
+}
+
+.build-checklist {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.build-check-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-height: 48px;
+  padding: 12px 14px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.055);
+  color: #e7edf7;
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 800;
+  transition:
+    border-color var(--ease),
+    background var(--ease),
+    box-shadow var(--ease),
+    transform var(--ease);
+}
+
+.build-check-item:hover,
+.build-check-item:focus-within,
+.build-check-item.is-complete {
+  border-color: rgba(98, 246, 255, 0.5);
+  background: rgba(98, 246, 255, 0.1);
+  box-shadow: 0 0 22px rgba(98, 246, 255, 0.12);
+}
+
+.build-check-item:hover {
+  transform: translateY(-2px);
+}
+
+.build-check-item input {
+  width: 18px;
+  height: 18px;
+  margin: 0;
+  flex: 0 0 auto;
+  accent-color: var(--accent);
+  cursor: pointer;
+}
+
+.build-check-item span {
+  line-height: 1.35;
+}
+
+.build-check-item.is-complete span {
+  color: #ffffff;
 }
 
 .build-stats-grid {
@@ -881,6 +1067,15 @@ h1 {
 
   .build-card {
     grid-template-columns: 1fr;
+  }
+
+  .build-title-row {
+    flex-direction: column;
+  }
+
+  .build-total-badge {
+    width: 100%;
+    text-align: left;
   }
 
   .build-portrait {

@@ -254,6 +254,8 @@ const detailsRole = document.querySelector("#detailsRole");
 const detailsTitle = document.querySelector("#detailsTitle");
 const detailsDescription = document.querySelector("#detailsDescription");
 const buildsButton = document.querySelector("#buildsButton");
+const detailsBuildProgressValue = document.querySelector("#detailsBuildProgressValue");
+const detailsBuildProgressBar = document.querySelector("#detailsBuildProgressBar");
 const detailsBuild = document.querySelector("#detailsBuild");
 const detailsTeam = document.querySelector("#detailsTeam");
 
@@ -312,6 +314,52 @@ function getFilteredCharacters() {
 
     return matchesElement && matchesTeam;
   });
+}
+
+function getBuildProgressStorageKey(character) {
+  return `ww-build-checklist:${character.name}`;
+}
+
+function getDefaultBuildProgress() {
+  return {
+    characterLevel: false,
+    weaponLevel: false,
+    talents: false,
+    echoes: false,
+  };
+}
+
+function getSavedBuildProgress(character) {
+  const defaults = getDefaultBuildProgress();
+
+  try {
+    const savedProgress = localStorage.getItem(getBuildProgressStorageKey(character));
+
+    if (!savedProgress) {
+      return defaults;
+    }
+
+    return {
+      ...defaults,
+      ...JSON.parse(savedProgress),
+    };
+  } catch {
+    return defaults;
+  }
+}
+
+function getBuildProgressPercent(character) {
+  const progress = getSavedBuildProgress(character);
+  const completedItems = Object.values(progress).filter(Boolean).length;
+
+  return Math.round((completedItems / 4) * 100);
+}
+
+function updateDetailsBuildProgress(character) {
+  const progressPercent = getBuildProgressPercent(character);
+
+  detailsBuildProgressValue.textContent = `${progressPercent}%`;
+  detailsBuildProgressBar.style.width = `${progressPercent}%`;
 }
 
 function renderFilterButtons(container, key, options) {
@@ -387,6 +435,7 @@ function openCharacterDetails(character) {
   detailsTitle.textContent = character.name;
   detailsDescription.textContent = character.description;
   buildsButton.dataset.characterName = character.name;
+  updateDetailsBuildProgress(character);
 
   detailsBuild.replaceChildren(
     ...character.build.map((item) => createElement("li", null, item))

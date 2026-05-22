@@ -42,12 +42,6 @@
         return characters.find((character) => character.name === name);
       }
 
-      function getBuildValue(character, label) {
-        const item = character.build.find((buildItem) => buildItem.startsWith(`${label}:`));
-
-        return item ? item.replace(`${label}:`, "").trim() : "Nao informado";
-      }
-
       function getTalentFocus(character) {
         return character.talents && character.talents.length > 0
           ? character.talents
@@ -60,12 +54,104 @@
           : ["Status secundarios nao informados"];
       }
 
+      function escapeHtml(value) {
+        return String(value)
+          .replaceAll("&", "&amp;")
+          .replaceAll("<", "&lt;")
+          .replaceAll(">", "&gt;")
+          .replaceAll('"', "&quot;")
+          .replaceAll("'", "&#039;");
+      }
+
+      function getProgressStorageKey(character) {
+        return `ww-build-checklist:${character.name}`;
+      }
+
+      function getDefaultBuildProgress() {
+        return {
+          characterLevel: false,
+          weaponLevel: false,
+          talents: false,
+          echoes: false,
+        };
+      }
+
+      function loadBuildProgress(character) {
+        const defaults = getDefaultBuildProgress();
+        let savedProgress = null;
+
+        try {
+          savedProgress = localStorage.getItem(getProgressStorageKey(character));
+        } catch {
+          return defaults;
+        }
+
+        if (!savedProgress) {
+          return defaults;
+        }
+
+        try {
+          const parsedProgress = JSON.parse(savedProgress);
+
+          return {
+            ...defaults,
+            ...parsedProgress,
+          };
+        } catch {
+          return defaults;
+        }
+      }
+
+      function saveBuildProgress(character, progress) {
+        try {
+          localStorage.setItem(
+            getProgressStorageKey(character),
+            JSON.stringify(progress)
+          );
+        } catch {
+          return;
+        }
+      }
+
+      function getWeightedProgress(progress) {
+        const completedItems = Object.values(progress).filter(Boolean).length;
+
+        return Math.round((completedItems / 4) * 100);
+      }
+
+      function getProgressFromForm(root, character) {
+        const progress = loadBuildProgress(character);
+
+        return {
+          ...progress,
+          characterLevel: root.querySelector("#characterLevelInput").checked,
+          weaponLevel: root.querySelector("#weaponLevelInput").checked,
+          talents: root.querySelector("#talentsInput").checked,
+          echoes: root.querySelector("#echoesInput").checked,
+        };
+      }
+
+      function updateBuildProgress(root, character) {
+        const progress = getProgressFromForm(root, character);
+        const totalProgress = getWeightedProgress(progress);
+
+        root.querySelector("#totalProgressValue").textContent = `${totalProgress}%`;
+        root.querySelector("#totalProgressBar").style.width = `${totalProgress}%`;
+        root.querySelectorAll("[data-check-item]").forEach((item) => {
+          const checkbox = item.querySelector("input");
+
+          item.classList.toggle("is-complete", checkbox.checked);
+        });
+
+        saveBuildProgress(character, progress);
+      }
+
       function renderBuildError(root, message) {
         root.innerHTML = `
           <article class="build-card build-error">
             <p class="eyebrow">Build nao encontrada</p>
             <h1>Ops</h1>
-            <p>${message}</p>
+            <p>${escapeHtml(message)}</p>
             <a class="build-back-link" href="index.html">Voltar para personagens</a>
           </article>
         `;
@@ -73,50 +159,88 @@
 
       function renderCharacterBuild(character) {
         const root = document.querySelector("#buildRoot");
-        const weapon = getBuildValue(character, "Arma");
-        const echoSet = getBuildValue(character, "Echo Set");
-        const stats = getBuildValue(character, "Stats");
+        const progress = loadBuildProgress(character);
         const secondaryStats = getSecondaryStats(character);
         const talents = getTalentFocus(character);
 
         root.innerHTML = `
-          <article class="build-card">
+          <article class="build-card build-progress-card">
             <div class="build-portrait">
-              <img src="${character.image}" alt="${character.name}" />
+              <img src="${escapeHtml(character.image)}" alt="${escapeHtml(character.name)}" />
             </div>
             <div class="build-content">
-              <p class="eyebrow">${character.role}</p>
-              <h1>${character.name}</h1>
-              <div class="build-stats-grid">
-                <section class="build-stat">
-                  <span>Arma</span>
-                  <strong>${weapon}</strong>
-                </section>
-                <section class="build-stat">
-                  <span>Echo Set</span>
-                  <strong>${echoSet}</strong>
-                </section>
-                <section class="build-stat">
-                  <span>Stats principais</span>
-                  <strong>${stats}</strong>
-                </section>
+              <div class="build-title-row">
+                <div>
+                  <p class="eyebrow">${escapeHtml(character.role)}</p>
+                  <h1>${escapeHtml(character.name)}</h1>
+                </div>
+                <div class="build-total-badge">
+                  <span>Progresso</span>
+                  <strong id="totalProgressValue">0%</strong>
+                </div>
               </div>
+
+              <section class="build-progress-hero" aria-label="Progresso geral da build">
+                <div>
+                  <span>Checklist da build</span>
+                  <strong>Marque o que ja esta pronto</strong>
+                </div>
+                <div class="progress-track progress-track-large">
+                  <span id="totalProgressBar"></span>
+                </div>
+              </section>
+
+              <div class="build-checklist">
+                <label class="build-check-item" data-check-item>
+                  <input id="characterLevelInput" type="checkbox" ${progress.characterLevel ? "checked" : ""} />
+                  <span>Nivel de personagem</span>
+                </label>
+                <label class="build-check-item" data-check-item>
+                  <input id="weaponLevelInput" type="checkbox" ${progress.weaponLevel ? "checked" : ""} />
+                  <span>Nivel de arma</span>
+                </label>
+                <label class="build-check-item" data-check-item>
+                  <input id="talentsInput" type="checkbox" ${progress.talents ? "checked" : ""} />
+                  <span>Talentos</span>
+                </label>
+                <label class="build-check-item" data-check-item>
+                  <input id="echoesInput" type="checkbox" ${progress.echoes ? "checked" : ""} />
+                  <span>Ecos</span>
+                </label>
+              </div>
+
               <section class="secondary-stats">
                 <span>Status secundarios</span>
                 <div>
-                  ${secondaryStats.map((stat) => `<strong>${stat}</strong>`).join("")}
+                  ${secondaryStats.map((stat) => `<strong>${escapeHtml(stat)}</strong>`).join("")}
                 </div>
               </section>
+
               <section class="talent-focus">
                 <span>Talentos para focar</span>
                 <ol>
-                  ${talents.map((talent) => `<li>${talent}</li>`).join("")}
+                  ${talents.map((talent) => `<li>${escapeHtml(talent)}</li>`).join("")}
                 </ol>
               </section>
+
               <a class="build-back-link" href="index.html">Voltar para personagens</a>
             </div>
           </article>
         `;
+
+        root.addEventListener("input", (event) => {
+          if (event.target.matches("input")) {
+            updateBuildProgress(root, character);
+          }
+        });
+
+        root.addEventListener("change", (event) => {
+          if (event.target.matches("input")) {
+            updateBuildProgress(root, character);
+          }
+        });
+
+        updateBuildProgress(root, character);
       }
 
       function initBuildPage() {
