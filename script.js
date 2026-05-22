@@ -91,6 +91,19 @@ const characters = [
     talents: ["Forte Circuit","Resonance Skill","Resonance Liberation","Basic Attack", "Intro Skill"],
     team: ["Rover", "Shorekeeper"],
   },
+  {
+    name: "Phrolova",
+    role: "Havoc DPS",
+    element: "Havoc",
+    combatFunction: "DPS",
+    image: "assets/images/characters/phrolova.png",
+    description:
+      "DPS focada em dano Havoc com forte pressão ofensiva e ataques de grande alcance. Combina dano explosivo com presença constante em combate, se destacando em rotações agressivas.",
+    build: ["Arma: Stringmaster", "Echo Set: Dream of the Lost + Midnight Veil", "Main Echo: Nightmare - Hecate", "Stats: Crit DMG / Havoc DMG / ATK"],
+    secondaryStats: ["Crit Rate", "Crit DMG", "Resonance Skill", "ATK%"],
+    talents: ["Resonance Liberation", "Basic Attack", "Forte Circuit", "Intro Skill", "Resonance Skill"],
+    team: ["Cantarella"],
+  },
 
   // Sub-DPS
   {
@@ -158,7 +171,7 @@ const characters = [
     build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats: Crit DMG / (Energy Regen/Spectrum DMG) / HP"],
     secondaryStats: ["Energy Regen 230%", "HP%", "Crit DMG"],
     talents: ["Resonance Skill", "Resonance Liberation", "Intro Skill", "Basic Attack", "Forte Circuit"],
-    team: ["Verina", "Mornye", "Baizhi"],
+    team: ["Verina", "Mornye", "Baizhi", "Buling", "Rover Aero"],
   },
   {
     name: "Verina",
@@ -171,7 +184,7 @@ const characters = [
     build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats:  Healing Bonus / Energy Regen / ATK"],
     secondaryStats: ["Energy Regen", "ATK%"],
     talents: ["Resonance Liberation", "Forte Circuit", "Resonance Skill", "Basic Attack", "Intro Skill"],
-    team: ["Shorekeeper", "Mornye", "Baizhi"],
+    team: ["Shorekeeper", "Mornye", "Baizhi", "Buling", "Rover Aero"],
   },
   {
     name: "Mornye",
@@ -184,7 +197,7 @@ const characters = [
     build: ["Arma: Discord", "Echo Set: Halo of Starry Radiance", "Main Echo: Reactor Husk", "Stats: Healing Bonus / (Energy Regen/DEF%) / DEF"],
     secondaryStats: ["Energy Regen 260%", "3000+ DEF%"],
     talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Basic Attack", "Intro Skill"],
-    team: ["Shorekeeper", "Verina", "Baizhi"],
+    team: ["Shorekeeper", "Verina", "Baizhi", "Buling", "Rover Aero"],
   },
   {
     name: "Baizhi",
@@ -193,11 +206,37 @@ const characters = [
     combatFunction: "Support",
     image: "assets/images/characters/baizhi.png",
     description:
-      "Suporte focada em cura contínua e geração de energia. Aplica sustain fora de campo e concede buff ao próximo personagem, garantindo estabilidade e fluidez nas rotações.",
+      "Suporte focada em cura contínua e geração de energia. Aplica sustain fora de field e concede buff ao próximo personagem, garantindo estabilidade e fluidez nas rotações.",
     build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Bell-Borne Geochelone", "Stats: Healing Bonus / Energy Regen / HP"],
     secondaryStats: ["Energy Regen 220%", "30000 HP%"],
     talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Basic Attack", "Intro Skill"],
-    team: ["Shorekeeper", "Verina", "Mornye"],
+    team: ["Shorekeeper", "Verina", "Mornye", "Buling", "Rover Aero"],
+  },
+  {
+    name: "Rover Aero",
+    role: "Aero Support",
+    element: "Aero",
+    combatFunction: "Support",
+    image: "assets/images/characters/rover-aero.png",
+    description:
+      "Suporte focado em amplificar dano Aero e fortalecer rotações ofensivas. Atualmente possui forte sinergia com Jiyan, oferecendo utilidade e aumento de dano para equipes Aero, além de potencial para futuras composições com Cartethyia e Ciaccona.",
+    build: ["Arma: Bloodpact's Pledge", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats: Crit Rate / Aero DMG / ATK"],
+    secondaryStats: ["Crit Rate", "Crit DMG", "ATK%", "Resonance Skill DMG", "Energy Regen - 140%" ],
+    talents: ["Forte Circuit", "Resonance Liberation", "Resonance Skill", "Basic Attack", "Intro Skill"],
+    team: ["Jiyan", "Mortefi"],
+  },
+  {
+    name: "Buling",
+    role: "Support",
+    element: "Electro",
+    combatFunction: "Support",
+    image: "assets/images/characters/buling.png",
+    description:
+      "Suporte focada em cura e aplicação de debuffs. Utiliza o Circuito Forte Yin e Yang para aplicar Electro Flare e Electro Rage nos inimigos, enquanto fornece buffs e sustentação para toda a equipe.",
+    build: ["Arma: Variation", "Echo Set: Rejuvenating Glow", "Main Echo: Fallacy of No Return", "Stats: ATK / (Energy Regen/ATK) / ATK"],
+    secondaryStats: ["Energy Regen - 150%", "ATK% - 1800"],
+    talents: ["Basic Attack", "Forte Circuit", "Resonance Liberation", "Resonance Skill", "Intro Skill"],
+    team: ["Shorekeeper", "Verina", "Mornye", "Baizhi", "Rover Aero"],
   }
 ];
 
@@ -247,15 +286,17 @@ function getUniqueTeamOptions() {
     "Supports",
     ...characters
       .filter((character) => character.combatFunction === "DPS" && character.name !== "Danjin")
-      .map((character) => character.name)
+      .map((character) => (character.name === "Rover" ? "Rover+Danjin" : character.name))
       .sort(),
   ];
 }
 
 function getFilteredCharacters() {
   const isSupportTeamSelected = activeFilters.teamLeader === "Supports";
+  const selectedLeaderName =
+    activeFilters.teamLeader === "Rover+Danjin" ? "Rover" : activeFilters.teamLeader;
   const selectedLeader = characters.find(
-    (character) => character.name === activeFilters.teamLeader
+    (character) => character.name === selectedLeaderName
   );
   const selectedTeamNames = selectedLeader
     ? [selectedLeader.name, ...selectedLeader.team]
