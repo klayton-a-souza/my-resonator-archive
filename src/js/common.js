@@ -483,3 +483,127 @@ function bindChecklists(root) {
   });
 }
 
+function parseStoredJson(key, fallback) {
+  try {
+    const value = localStorage.getItem(key);
+
+    return value ? JSON.parse(value) : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+function getAppBackupData() {
+  const characterProgress = {};
+
+  characters.forEach((character) => {
+    characterProgress[character.name] = loadProgress(character);
+  });
+
+  return {
+    version: 1,
+    exportedAt: new Date().toISOString(),
+    dashboardPreferences: loadDashboardPreferences(),
+    characterProgress,
+    endgameProgress: parseStoredJson("ww-endgame-progress", {}),
+    endgameCycles: parseStoredJson("ww-endgame-cycles", {}),
+  };
+}
+
+function downloadAppBackup() {
+  const backup = getAppBackupData();
+  const file = new Blob([JSON.stringify(backup, null, 2)], {
+    type: "application/json",
+  });
+  const url = URL.createObjectURL(file);
+  const date = new Date().toISOString().slice(0, 10);
+  const link = document.createElement("a");
+
+  link.href = url;
+  link.download = `wave-account-hub-backup-${date}.json`;
+  document.body.appendChild(link);
+  link.click();
+  link.remove();
+  URL.revokeObjectURL(url);
+}
+
+function importAppBackup(backup) {
+  if (!backup || typeof backup !== "object") {
+    throw new Error("Arquivo de backup invalido.");
+  }
+
+  if (backup.dashboardPreferences) {
+    localStorage.setItem(
+      dashboardPrefsStorageKey,
+      JSON.stringify({
+        ...getDefaultDashboardPreferences(),
+        ...backup.dashboardPreferences,
+      })
+    );
+  }
+
+  if (backup.characterProgress && typeof backup.characterProgress === "object") {
+    characters.forEach((character) => {
+      const progress = backup.characterProgress[character.name];
+
+      if (progress) {
+        saveProgress(character, {
+          ...getDefaultProgress(),
+          ...progress,
+        });
+      }
+    });
+  }
+
+  if (backup.endgameProgress) {
+    localStorage.setItem("ww-endgame-progress", JSON.stringify(backup.endgameProgress));
+  }
+
+  if (backup.endgameCycles) {
+    localStorage.setItem("ww-endgame-cycles", JSON.stringify(backup.endgameCycles));
+  }
+}
+
+function renderDataTools() {
+  if (document.querySelector("[data-data-tools]")) {
+    return;
+  }
+
+  const tools = document.createElement("div");
+
+  tools.className = "data-tools";
+  tools.dataset.dataTools = "true";
+  tools.innerHTML = `
+    <button type="button" data-export-data>Exportar dados</button>
+    <label>
+      <span>Importar dados</span>
+      <input type="file" accept="application/json,.json" data-import-data />
+    </label>
+  `;
+  document.body.appendChild(tools);
+
+  tools.querySelector("[data-export-data]").addEventListener("click", () => {
+    downloadAppBackup();
+  });
+
+  tools.querySelector("[data-import-data]").addEventListener("change", (event) => {
+    const file = event.target.files?.[0];
+
+    if (!file) {
+      return;
+    }
+
+    const reader = new FileReader();
+
+    reader.addEventListener("load", () => {
+      try {
+        importAppBackup(JSON.parse(reader.result));
+        window.location.reload();
+      } catch {
+        alert("Nao foi possivel importar esse backup.");
+      }
+    });
+    reader.readAsText(file);
+  });
+}
+

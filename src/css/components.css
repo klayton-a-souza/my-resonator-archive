@@ -594,3 +594,50 @@ dd {
   accent-color: var(--success);
 }
 
+.data-tools {
+  position: fixed;
+  right: 18px;
+  bottom: 18px;
+  z-index: 50;
+  display: flex;
+  gap: 8px;
+  padding: 8px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: rgba(16, 22, 32, 0.94);
+  box-shadow: 0 14px 42px rgba(0, 0, 0, 0.28);
+}
+
+.data-tools button,
+.data-tools label {
+  min-height: 34px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 11px;
+  border: 1px solid var(--line-soft);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--muted-2);
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.data-tools button:hover,
+.data-tools label:hover {
+  border-color: rgba(120, 216, 212, 0.38);
+  background: rgba(120, 216, 212, 0.12);
+  color: var(--text);
+}
+
+.data-tools input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+  pointer-events: none;
+}
+

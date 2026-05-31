@@ -859,5 +859,16 @@
   .build-focus-form div {
     flex-direction: column;
   }
+
+  .data-tools {
+    left: 14px;
+    right: 14px;
+    bottom: 14px;
+  }
+
+  .data-tools button,
+  .data-tools label {
+    flex: 1;
+  }
 }
 

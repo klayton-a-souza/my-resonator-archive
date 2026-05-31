@@ -1,3 +1,4 @@
+renderDataTools();
 renderDashboard();
 renderBuildPage();
 renderLibrary();
