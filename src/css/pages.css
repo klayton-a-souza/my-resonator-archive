@@ -424,14 +424,14 @@
 
 .library-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 14px;
+  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  gap: 18px;
 }
 
 .library-card {
   display: grid;
-  grid-template-columns: 110px minmax(0, 1fr);
-  min-height: 190px;
+  grid-template-columns: 145px minmax(0, 1fr);
+  min-height: 235px;
   overflow: hidden;
   transition: transform var(--ease), border-color var(--ease), background var(--ease);
 }
@@ -448,13 +448,13 @@
   display: grid;
   align-content: space-between;
   gap: 18px;
-  padding: 16px;
+  padding: 18px;
 }
 
 .library-card h2 {
   margin: 6px 0 0;
   overflow-wrap: anywhere;
-  font-size: 1.25rem;
+  font-size: 1.36rem;
 }
 
 .empty-state {
@@ -477,35 +477,180 @@
 .endgame-layout {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
-  gap: 16px;
+  gap: 12px;
 }
 
 .endgame-card {
   display: grid;
-  gap: 18px;
-  padding: clamp(18px, 2.4vw, 24px);
+  gap: 16px;
+  padding: clamp(14px, 2vw, 18px);
+  background:
+    linear-gradient(90deg, rgba(0, 0, 0, 0.28), rgba(255, 255, 255, 0.025)),
+    rgba(16, 22, 32, 0.88);
 }
 
-.endgame-card-head {
-  display: flex;
-  justify-content: space-between;
-  gap: 18px;
+.endgame-metric-row {
+  display: grid;
+  grid-template-columns: 62px minmax(0, 1fr);
+  gap: 14px;
+  align-items: stretch;
 }
 
-.endgame-card-head h2 {
-  margin: 8px 0 0;
-  font-size: 1.28rem;
+.endgame-mode-icon {
+  display: grid;
+  place-items: center;
+  border-right: 1px solid var(--line-soft);
+  color: var(--text);
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.2rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
 }
 
-.endgame-card-head > strong {
-  align-self: start;
-  padding: 7px 10px;
-  border: 1px solid rgba(199, 178, 123, 0.28);
-  border-radius: 999px;
-  background: rgba(199, 178, 123, 0.08);
-  color: var(--accent-strong);
-  font-size: 0.76rem;
+.endgame-mode-icon img {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+}
+
+.endgame-metric-body {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.endgame-metric-head {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 14px;
+}
+
+.endgame-metric-head span {
+  color: var(--accent);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.endgame-metric-head h2 {
+  margin: 4px 0 2px;
+  color: rgba(244, 244, 233, 0.9);
+  font-size: clamp(1.1rem, 1.45vw, 1.45rem);
+}
+
+.endgame-metric-head small {
+  color: var(--muted);
+  font-size: 0.98rem;
+  font-weight: 800;
+}
+
+.endgame-metric-head button {
+  width: max-content;
+  min-height: 36px;
+  padding: 0 12px;
+  border: 1px solid rgba(120, 216, 212, 0.32);
+  border-radius: var(--radius);
+  background: rgba(120, 216, 212, 0.1);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
   white-space: nowrap;
+}
+
+.endgame-metric-bar {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  min-height: 38px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0 12px;
+}
+
+.endgame-metric-bar i {
+  position: absolute;
+  inset: 0 auto 0 0;
+  width: 0;
+  background: linear-gradient(90deg, rgba(120, 216, 212, 0.22), rgba(199, 178, 123, 0.22));
+}
+
+.endgame-metric-bar span,
+.endgame-metric-bar strong {
+  position: relative;
+  z-index: 1;
+}
+
+.endgame-metric-bar span {
+  overflow: hidden;
+  color: rgba(244, 244, 233, 0.82);
+  font-size: clamp(0.86rem, 1.15vw, 1.02rem);
+  font-weight: 800;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.endgame-metric-bar strong {
+  color: var(--text);
+  font-size: clamp(1.25rem, 1.8vw, 1.7rem);
+  line-height: 1;
+  white-space: nowrap;
+}
+
+.endgame-progress-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  gap: 8px;
+  align-items: end;
+}
+
+.endgame-progress-form label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.endgame-progress-form label span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.endgame-progress-form input {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid var(--line-soft);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text);
+  padding: 0 9px;
+  outline: none;
+}
+
+.endgame-progress-form input:focus {
+  border-color: rgba(120, 216, 212, 0.52);
+}
+
+.endgame-progress-form button {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid rgba(120, 216, 212, 0.3);
+  border-radius: 7px;
+  background: rgba(120, 216, 212, 0.1);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 .endgame-results {
@@ -645,21 +790,34 @@
   }
 
   .library-card {
-    grid-template-columns: 92px minmax(0, 1fr);
+    grid-template-columns: 128px minmax(0, 1fr);
   }
 
-  .endgame-card-head,
+  .endgame-metric-head,
   .endgame-results {
     grid-template-columns: 1fr;
   }
 
-  .endgame-card-head {
+  .endgame-metric-head {
     display: grid;
   }
 
-  .endgame-card-head > strong {
+  .endgame-metric-head button {
     width: max-content;
     white-space: normal;
+  }
+}
+
+@media (max-width: 620px) {
+  .endgame-metric-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .endgame-mode-icon {
+    min-height: 54px;
+    border-right: 0;
+    border-bottom: 1px solid var(--line-soft);
   }
 }
 
@@ -683,7 +841,7 @@
   }
 
   .library-card img {
-    height: 260px;
+    height: 320px;
   }
 
   .echo-card {

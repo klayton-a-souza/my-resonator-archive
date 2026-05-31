@@ -73,6 +73,7 @@ function renderDashboard() {
   const favoriteCharacters = getDashboardFavoriteCharacters();
   const checklistCharacters = getDashboardChecklistCharacters();
   const focusGoal = getCharacterGoal(focusCharacter);
+  const endgameProgressByMode = loadEndgameProgress();
 
   root.innerHTML = `
     <div class="dashboard-grid">
@@ -114,18 +115,30 @@ function renderDashboard() {
         </div>
         <div class="summary-grid">
           ${endgameModes
-            .map(
-              (mode) => `
+            .map((mode) => {
+              const progress = getModeProgress(mode, endgameProgressByMode);
+              const progressPercent = getEndgameProgressPercent(progress);
+
+              return `
                 <a class="summary-card" href="${pageUrl("endgame.html")}">
-                  <span>${escapeHtml(mode.status)}</span>
-                  <h3>${escapeHtml(mode.name)}</h3>
-                  <dl>
-                    <div><dt>Ultimo</dt><dd>${escapeHtml(mode.last)}</dd></div>
-                    <div><dt>Melhor</dt><dd>${escapeHtml(mode.best)}</dd></div>
-                  </dl>
+                  <div class="summary-card-head">
+                    ${
+                      mode.icon
+                        ? `<img src="${assetUrl(escapeHtml(mode.icon))}" alt="" />`
+                        : `<span>${escapeHtml(mode.shortName)}</span>`
+                    }
+                    <h3>${escapeHtml(mode.name)}</h3>
+                  </div>
+                  <div class="summary-progress">
+                    <div>
+                      <span>${escapeHtml(mode.metricLabel)}</span>
+                      <strong>${progress.current}/${progress.total}</strong>
+                    </div>
+                    <i><b style="width: ${progressPercent}%"></b></i>
+                  </div>
                 </a>
-              `
-            )
+              `;
+            })
             .join("")}
         </div>
       </section>
