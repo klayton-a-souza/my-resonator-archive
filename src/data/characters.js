@@ -5,7 +5,7 @@ const characters = [
     role: "DPS",
     level: 80,
     rank: "S0",
-    image: "assets/images/characters/jinhsi.png",
+    image: "assets/images/characters/optimized/jinhsi-dashboard.jpg",
     goal: "Evoluir para nivel 90",
     buildName: "Burst Spectro",
     weapon: "Ages of Harvest",
