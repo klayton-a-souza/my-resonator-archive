@@ -604,6 +604,17 @@ dd {
   right: 18px;
   bottom: 18px;
   z-index: 50;
+  display: grid;
+  justify-items: end;
+  gap: 10px;
+  padding: 0;
+  border: 0;
+  border-radius: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.data-tools-menu {
   display: flex;
   gap: 8px;
   padding: 8px;
@@ -611,6 +622,10 @@ dd {
   border-radius: var(--radius);
   background: rgba(16, 22, 32, 0.94);
   box-shadow: 0 14px 42px rgba(0, 0, 0, 0.28);
+}
+
+.data-tools-menu[hidden] {
+  display: none;
 }
 
 .data-tools button,
@@ -629,6 +644,14 @@ dd {
   font-weight: 800;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.data-tools-toggle {
+  min-width: 82px;
+  border-color: rgba(120, 216, 212, 0.32) !important;
+  background: rgba(120, 216, 212, 0.12) !important;
+  color: var(--text) !important;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.24);
 }
 
 .data-tools button:hover,

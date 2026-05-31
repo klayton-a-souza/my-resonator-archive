@@ -865,6 +865,11 @@
     left: 14px;
     right: 14px;
     bottom: 14px;
+    justify-items: stretch;
+  }
+
+  .data-tools-menu {
+    flex-direction: column;
   }
 
   .data-tools button,

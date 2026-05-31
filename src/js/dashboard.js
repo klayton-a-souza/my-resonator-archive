@@ -1,5 +1,16 @@
 let favoriteCarouselIndex = 0;
 
+async function getDashboardFocusLevel(focusCharacter) {
+  try {
+    const accountBuilds = await loadAccountBuilds();
+    const accountBuild = getAccountBuildForCharacter(accountBuilds, focusCharacter);
+
+    return accountBuild?.character?.level || focusCharacter.level;
+  } catch {
+    return focusCharacter.level;
+  }
+}
+
 function renderFavoriteCarousel(favoriteCharacters) {
   if (favoriteCharacters.length === 0) {
     return `<p class="panel-empty">Nenhum favorito selecionado.</p>`;
@@ -84,7 +95,7 @@ function renderDashboard() {
           <div class="meta-row">
             <span>${escapeHtml(focusCharacter.element)}</span>
             <span>${escapeHtml(focusCharacter.role)}</span>
-            <span>Nivel ${focusCharacter.level}</span>
+            <span data-focus-level>Nivel ${focusCharacter.level}</span>
           </div>
           <div class="objective-pill">
             <span>Objetivo atual</span>
@@ -197,6 +208,12 @@ function renderDashboard() {
     button.addEventListener("click", () => {
       favoriteCarouselIndex = Number(button.dataset.favoriteCarouselIndex);
       renderDashboard();
+    });
+  });
+
+  getDashboardFocusLevel(focusCharacter).then((level) => {
+    root.querySelectorAll("[data-focus-level]").forEach((node) => {
+      node.textContent = `Nivel ${level}`;
     });
   });
 }

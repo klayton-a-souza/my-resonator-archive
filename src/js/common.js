@@ -574,13 +574,24 @@ function renderDataTools() {
   tools.className = "data-tools";
   tools.dataset.dataTools = "true";
   tools.innerHTML = `
-    <button type="button" data-export-data>Exportar dados</button>
-    <label>
-      <span>Importar dados</span>
-      <input type="file" accept="application/json,.json" data-import-data />
-    </label>
+    <button class="data-tools-toggle" type="button" data-toggle-data-tools aria-expanded="false">Dados</button>
+    <div class="data-tools-menu" data-data-tools-menu hidden>
+      <button type="button" data-export-data>Exportar dados</button>
+      <label>
+        <span>Importar dados</span>
+        <input type="file" accept="application/json,.json" data-import-data />
+      </label>
+    </div>
   `;
   document.body.appendChild(tools);
+
+  tools.querySelector("[data-toggle-data-tools]").addEventListener("click", (event) => {
+    const menu = tools.querySelector("[data-data-tools-menu]");
+    const isOpen = !menu.hidden;
+
+    menu.hidden = isOpen;
+    event.currentTarget.setAttribute("aria-expanded", String(!isOpen));
+  });
 
   tools.querySelector("[data-export-data]").addEventListener("click", () => {
     downloadAppBackup();
