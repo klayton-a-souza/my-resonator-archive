@@ -38,7 +38,7 @@ function renderFavoriteCarousel(favoriteCharacters) {
                 aria-label="Ver build de ${escapeHtml(character.name)}"
                 title="${escapeHtml(character.name)}"
               >
-                <img src="${assetUrl(escapeHtml(character.image))}" alt="${escapeHtml(character.name)}" />
+                <img src="${assetUrl(escapeHtml(character.image))}" alt="${escapeHtml(character.name)}" loading="lazy" decoding="async" />
                 <div>
                   <strong>${escapeHtml(character.name)}</strong>
                   <span>${escapeHtml(character.element)} / ${escapeHtml(character.role)}</span>
@@ -96,7 +96,7 @@ function renderDashboard() {
           </div>
         </div>
         <div class="focus-art">
-          <img src="${assetUrl(escapeHtml(focusCharacter.image))}" alt="${escapeHtml(focusCharacter.name)}" />
+          <img src="${assetUrl(escapeHtml(focusCharacter.image))}" alt="${escapeHtml(focusCharacter.name)}" decoding="async" fetchpriority="high" />
         </div>
       </article>
 
@@ -124,7 +124,7 @@ function renderDashboard() {
                   <div class="summary-card-head">
                     ${
                       mode.icon
-                        ? `<img src="${assetUrl(escapeHtml(mode.icon))}" alt="" />`
+                        ? `<img src="${assetUrl(escapeHtml(mode.icon))}" alt="" loading="lazy" decoding="async" />`
                         : `<span>${escapeHtml(mode.shortName)}</span>`
                     }
                     <h3>${escapeHtml(mode.name)}</h3>

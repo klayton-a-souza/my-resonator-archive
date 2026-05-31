@@ -44,7 +44,7 @@ function renderLibrary() {
             .map(
               (character) => `
                 <a class="library-card" href="${getBuildHref(character)}">
-                  <img src="${assetUrl(escapeHtml(character.image))}" alt="${escapeHtml(character.name)}" />
+                  <img src="${assetUrl(escapeHtml(character.image))}" alt="${escapeHtml(character.name)}" loading="lazy" decoding="async" />
                   <div class="library-card-body">
                     <div>
                       <span>${escapeHtml(character.element)} / ${escapeHtml(character.role)}</span>

@@ -152,7 +152,7 @@ function renderEndgameMode(mode, cycles, progressByMode) {
         <div class="endgame-mode-icon" aria-hidden="true">
           ${
             mode.icon
-              ? `<img src="${assetUrl(escapeHtml(mode.icon))}" alt="" />`
+              ? `<img src="${assetUrl(escapeHtml(mode.icon))}" alt="" loading="lazy" decoding="async" />`
               : escapeHtml(mode.shortName)
           }
         </div>

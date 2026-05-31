@@ -68,7 +68,7 @@ function renderBuildAnalysis(character, buildOverviewImage, analysis, mode) {
         </header>
 
         <div class="build-showcase-media">
-          <img src="${assetUrl(escapeHtml(buildOverviewImage))}" alt="Visao geral da build de ${escapeHtml(character.name)}" />
+          <img src="${assetUrl(escapeHtml(buildOverviewImage))}" alt="Visao geral da build de ${escapeHtml(character.name)}" decoding="async" fetchpriority="high" />
         </div>
 
         <div class="build-panels">

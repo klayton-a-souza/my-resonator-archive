@@ -195,7 +195,7 @@ function getBuildImageSlug(characterName) {
 function getBuildOverviewImage(character) {
   return (
     character.buildImage ||
-    `assets/images/builds/${getBuildImageSlug(character.name)}_build.png`
+    `assets/images/builds/optimized/${getBuildImageSlug(character.name)}_build.jpg`
   );
 }
 
