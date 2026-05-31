@@ -1,0 +1,485 @@
+const focusCharacterName = "Jinhsi";
+const dashboardPrefsStorageKey = "ww-dashboard-preferences";
+const checklistItems = [
+  ["characterLevel", "Nivel"],
+  ["weaponLevel", "Arma"],
+  ["talents", "Talentos"],
+  ["echoes", "Ecos"],
+];
+
+function escapeHtml(value) {
+  return String(value)
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;")
+    .replaceAll("'", "&#039;");
+}
+
+function getCharacterByName(name) {
+  return characters.find((character) => character.name === name) || characters[0];
+}
+
+function getDefaultDashboardPreferences() {
+  const favoriteNames = characters
+    .filter((character) => character.favorite)
+    .map((character) => character.name);
+  const checklistNames = [
+    focusCharacterName,
+    ...favoriteNames.filter((name) => name !== focusCharacterName),
+  ].slice(0, 4);
+
+  return {
+    focusCharacterName,
+    favoriteNames,
+    checklistNames,
+    goalsByCharacterName: {},
+  };
+}
+
+function loadDashboardPreferences() {
+  const defaults = getDefaultDashboardPreferences();
+
+  try {
+    const savedPreferences = localStorage.getItem(dashboardPrefsStorageKey);
+
+    if (!savedPreferences) {
+      return defaults;
+    }
+
+    return {
+      ...defaults,
+      ...JSON.parse(savedPreferences),
+    };
+  } catch {
+    return defaults;
+  }
+}
+
+function saveDashboardPreferences(preferences) {
+  try {
+    localStorage.setItem(
+      dashboardPrefsStorageKey,
+      JSON.stringify({
+        ...loadDashboardPreferences(),
+        ...preferences,
+      })
+    );
+  } catch {
+    return;
+  }
+}
+
+function getDashboardFocusCharacter() {
+  return getCharacterByName(loadDashboardPreferences().focusCharacterName);
+}
+
+function getDashboardFavoriteCharacters() {
+  const favoriteNames = new Set(loadDashboardPreferences().favoriteNames || []);
+
+  return characters.filter((character) => favoriteNames.has(character.name));
+}
+
+function getDashboardChecklistCharacters() {
+  const checklistNames = loadDashboardPreferences().checklistNames || [];
+
+  return checklistNames
+    .map((characterName) => characters.find((character) => character.name === characterName))
+    .filter(Boolean);
+}
+
+function isDashboardFocusCharacter(character) {
+  return loadDashboardPreferences().focusCharacterName === character.name;
+}
+
+function isDashboardFavoriteCharacter(character) {
+  return (loadDashboardPreferences().favoriteNames || []).includes(character.name);
+}
+
+function isDashboardChecklistCharacter(character) {
+  return (loadDashboardPreferences().checklistNames || []).includes(character.name);
+}
+
+function setDashboardFocusCharacter(character) {
+  const preferences = loadDashboardPreferences();
+  const checklistNames = [
+    character.name,
+    ...(preferences.checklistNames || []).filter((name) => name !== character.name),
+  ];
+
+  saveDashboardPreferences({
+    focusCharacterName: character.name,
+    checklistNames,
+  });
+}
+
+function toggleDashboardFavoriteCharacter(character) {
+  const preferences = loadDashboardPreferences();
+  const favoriteNames = new Set(preferences.favoriteNames || []);
+
+  if (favoriteNames.has(character.name)) {
+    favoriteNames.delete(character.name);
+  } else {
+    favoriteNames.add(character.name);
+  }
+
+  saveDashboardPreferences({
+    favoriteNames: [...favoriteNames],
+  });
+}
+
+function toggleDashboardChecklistCharacter(character) {
+  const preferences = loadDashboardPreferences();
+  const checklistNames = new Set(preferences.checklistNames || []);
+
+  if (checklistNames.has(character.name)) {
+    checklistNames.delete(character.name);
+  } else {
+    checklistNames.add(character.name);
+  }
+
+  saveDashboardPreferences({
+    checklistNames: [...checklistNames],
+  });
+}
+
+function getCharacterGoal(character) {
+  const goalsByCharacterName = loadDashboardPreferences().goalsByCharacterName || {};
+  const customGoal = goalsByCharacterName[character.name];
+
+  return customGoal || character.goal;
+}
+
+function setCharacterGoal(character, goal) {
+  const preferences = loadDashboardPreferences();
+  const goalsByCharacterName = {
+    ...(preferences.goalsByCharacterName || {}),
+  };
+  const nextGoal = goal.trim();
+
+  if (nextGoal) {
+    goalsByCharacterName[character.name] = nextGoal;
+  } else {
+    delete goalsByCharacterName[character.name];
+  }
+
+  saveDashboardPreferences({
+    goalsByCharacterName,
+  });
+}
+
+function isInPagesDir() {
+  return window.location.pathname.includes("/pages/");
+}
+
+function pageUrl(pageName) {
+  return isInPagesDir() ? pageName : `pages/${pageName}`;
+}
+
+function assetUrl(path) {
+  return isInPagesDir() ? `../${path}` : path;
+}
+
+function getBuildHref(character) {
+  return `${pageUrl("build.html")}?char=${encodeURIComponent(character.name)}`;
+}
+
+function getBuildImageSlug(characterName) {
+  return characterName
+    .toLowerCase()
+    .replace(/\s*\([^)]*\)/g, "")
+    .replace(/[^a-z0-9]+/g, "-")
+    .replace(/^-|-$/g, "");
+}
+
+function getBuildOverviewImage(character) {
+  return (
+    character.buildImage ||
+    `assets/images/builds/${getBuildImageSlug(character.name)}_build.png`
+  );
+}
+
+const echoRollMaximums = {
+  "Crit Rate": 10.5,
+  "Crit DMG": 21,
+  "ATK%": 11.6,
+  "HP%": 11.6,
+  "DEF%": 14.7,
+  "Energy Regen": 12.4,
+  "Resonance Skill DMG": 11.6,
+  "Basic Attack DMG": 11.6,
+  "Heavy Attack DMG": 11.6,
+  "Resonance Liberation DMG": 11.6,
+  "ATK": 60,
+  "HP": 580,
+  "DEF": 70,
+};
+
+function normalizeStatName(statName) {
+  const aliases = {
+    "Crit. Rate": "Crit Rate",
+    "Crit. DMG": "Crit DMG",
+    "Skill DMG": "Resonance Skill DMG",
+    "Liberation DMG": "Resonance Liberation DMG",
+    "Resonance Liberation": "Resonance Liberation DMG",
+    "Resonance Skill": "Resonance Skill DMG",
+    "Spectro DMG Bonus": "Spectro DMG",
+  };
+
+  return aliases[statName] || statName;
+}
+
+function formatDecimal(value, digits = 1) {
+  return Number(value || 0).toFixed(digits);
+}
+
+function getEchoSubstats(echo) {
+  if (!echo || !Array.isArray(echo.substats)) {
+    return [];
+  }
+
+  return echo.substats.map((substat) => ({
+    ...substat,
+    normalizedType: normalizeStatName(substat.type),
+  }));
+}
+
+function getEchoCv(echo) {
+  const substats = getEchoSubstats(echo);
+  const critRate = substats.find((substat) => substat.normalizedType === "Crit Rate")?.value || 0;
+  const critDamage = substats.find((substat) => substat.normalizedType === "Crit DMG")?.value || 0;
+
+  return critRate * 2 + critDamage;
+}
+
+function getTotalCvFromEchoes(echoes) {
+  return echoes.reduce((total, echo) => total + getEchoCv(echo), 0);
+}
+
+function getTotalCv(character) {
+  return character.echoes.reduce((total, echo) => total + (echo.cv || 0), 0).toFixed(1);
+}
+
+function getAccountDataUrl() {
+  return assetUrl("assets/images/builds/account.json");
+}
+
+async function loadAccountBuilds() {
+  const response = await fetch(getAccountDataUrl());
+
+  if (!response.ok) {
+    throw new Error("Nao foi possivel carregar account.json.");
+  }
+
+  return response.json();
+}
+
+function getAccountBuildForCharacter(accountBuilds, character) {
+  if (!Array.isArray(accountBuilds)) {
+    return null;
+  }
+
+  const normalizeCharacterName = (name) => {
+    return String(name || "")
+      .toLowerCase()
+      .replace(/\s*\([^)]*\)/g, "")
+      .replace(/[^a-z0-9]/g, "");
+  };
+  const characterName = normalizeCharacterName(character.name);
+
+  return accountBuilds.find((build) => {
+    const buildCharacterName =
+      typeof build.character === "string"
+        ? build.character
+        : build.character?.name;
+
+    return normalizeCharacterName(buildCharacterName) === characterName;
+  });
+}
+
+function getDesiredSubstatsFromAccountBuild(accountBuild) {
+  const rawSubstats =
+    accountBuild?.substats ||
+    accountBuild?.desiredSubstats ||
+    accountBuild?.prioritySubstats ||
+    accountBuild?.character?.substats ||
+    accountBuild?.character?.desiredSubstats ||
+    accountBuild?.character?.prioritySubstats;
+
+  if (Array.isArray(rawSubstats) && rawSubstats.length > 0) {
+    return rawSubstats.map(normalizeStatName);
+  }
+
+  const fallbackStats = [
+    "Crit Rate",
+    "Crit DMG",
+    ...(accountBuild?.character?.bonusStats || []).map(normalizeStatName),
+  ];
+
+  return [...new Set(fallbackStats)].slice(0, 5);
+}
+
+function getEchoMatch(echo, desiredSubstats) {
+  const substatTypes = new Set(getEchoSubstats(echo).map((substat) => substat.normalizedType));
+  const matched = desiredSubstats.filter((substat) => substatTypes.has(substat)).length;
+
+  return {
+    matched,
+    total: desiredSubstats.length,
+  };
+}
+
+function getEchoRv(echo, desiredSubstats) {
+  const desiredSet = new Set(desiredSubstats);
+  const matchingRolls = getEchoSubstats(echo).filter((substat) => {
+    return desiredSet.has(substat.normalizedType) && echoRollMaximums[substat.normalizedType];
+  });
+
+  if (matchingRolls.length === 0) {
+    return 0;
+  }
+
+  const totalPercent = matchingRolls.reduce((total, substat) => {
+    return total + (substat.value / echoRollMaximums[substat.normalizedType]) * 100;
+  }, 0);
+
+  return totalPercent / matchingRolls.length;
+}
+
+function getBuildAnalysis(character, accountBuild) {
+  const accountEchoes = Array.isArray(accountBuild?.echoes) ? accountBuild.echoes : [];
+  const fallbackEchoes = character.echoes.map((echo) => ({
+    ...echo,
+    substats: [],
+  }));
+  const echoes = accountEchoes.length > 0 ? accountEchoes : fallbackEchoes;
+  const desiredSubstats = getDesiredSubstatsFromAccountBuild(accountBuild);
+  const echoAnalyses = echoes.map((echo, index) => {
+    const match = getEchoMatch(echo, desiredSubstats);
+    const cv = getEchoSubstats(echo).length > 0 ? getEchoCv(echo) : echo.cv || 0;
+    const rv = getEchoRv(echo, desiredSubstats);
+
+    return {
+      name: echo.name || character.echoes[index]?.name || `Eco ${index + 1}`,
+      cost: echo.cost || character.echoes[index]?.cost || 1,
+      main: normalizeStatName(echo.mainStatType || character.echoes[index]?.main || ""),
+      cv,
+      rv,
+      match,
+    };
+  });
+  const totalCv = getTotalCvFromEchoes(echoes);
+  const averageRv =
+    echoAnalyses.length > 0
+      ? echoAnalyses.reduce((total, echo) => total + echo.rv, 0) / echoAnalyses.length
+      : 0;
+  const totalMatched = echoAnalyses.reduce((total, echo) => total + echo.match.matched, 0);
+  const totalPossibleMatches = echoAnalyses.reduce((total, echo) => total + echo.match.total, 0);
+  const cvScore = Math.min((totalCv / 200) * 100, 100);
+  const matchScore = totalPossibleMatches > 0 ? (totalMatched / totalPossibleMatches) * 100 : 0;
+  const buildScore = Math.round(cvScore * 0.4 + averageRv * 0.4 + matchScore * 0.2);
+
+  return {
+    desiredSubstats,
+    echoes: echoAnalyses,
+    totalCv,
+    averageRv,
+    match: {
+      matched: totalMatched,
+      total: totalPossibleMatches,
+      score: matchScore,
+    },
+    cvScore,
+    buildScore,
+  };
+}
+
+function getProgressStorageKey(character) {
+  return `ww-build-checklist:${character.name}`;
+}
+
+function getDefaultProgress() {
+  return {
+    characterLevel: false,
+    weaponLevel: false,
+    talents: false,
+    echoes: false,
+  };
+}
+
+function loadProgress(character) {
+  try {
+    const savedProgress = localStorage.getItem(getProgressStorageKey(character));
+
+    if (!savedProgress) {
+      return getDefaultProgress();
+    }
+
+    return {
+      ...getDefaultProgress(),
+      ...JSON.parse(savedProgress),
+    };
+  } catch {
+    return getDefaultProgress();
+  }
+}
+
+function saveProgress(character, progress) {
+  try {
+    localStorage.setItem(getProgressStorageKey(character), JSON.stringify(progress));
+  } catch {
+    return;
+  }
+}
+
+function getProgressPercent(character) {
+  const progress = loadProgress(character);
+  const checked = Object.values(progress).filter(Boolean).length;
+
+  return Math.round((checked / checklistItems.length) * 100);
+}
+
+function renderChecklist(character, compact = false) {
+  const progress = loadProgress(character);
+
+  return `
+    <div class="${compact ? "mini-checklist" : "checklist"}" data-checklist="${escapeHtml(character.name)}">
+      ${checklistItems
+        .map(([key, label]) => {
+          const checked = progress[key];
+
+          return `
+            <label class="check-item ${checked ? "is-done" : ""}">
+              <input type="checkbox" data-progress-key="${key}" ${checked ? "checked" : ""} />
+              <span>${label}</span>
+            </label>
+          `;
+        })
+        .join("")}
+    </div>
+  `;
+}
+
+function bindChecklists(root) {
+  root.querySelectorAll("[data-checklist]").forEach((checklist) => {
+    const character = getCharacterByName(checklist.dataset.checklist);
+
+    checklist.addEventListener("change", () => {
+      const progress = loadProgress(character);
+
+      checklist.querySelectorAll("[data-progress-key]").forEach((input) => {
+        progress[input.dataset.progressKey] = input.checked;
+        input.closest(".check-item").classList.toggle("is-done", input.checked);
+      });
+
+      saveProgress(character, progress);
+      root.querySelectorAll(`[data-progress-value="${character.name}"]`).forEach((node) => {
+        node.textContent = `${getProgressPercent(character)}%`;
+      });
+      root.querySelectorAll(`[data-progress-bar="${character.name}"]`).forEach((node) => {
+        node.style.width = `${getProgressPercent(character)}%`;
+      });
+    });
+  });
+}
+

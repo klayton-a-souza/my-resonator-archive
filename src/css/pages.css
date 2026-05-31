@@ -1,0 +1,705 @@
+.build-page-shell {
+  padding-top: clamp(30px, 5vw, 58px);
+}
+
+.character-build {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 356px);
+  gap: 24px;
+  align-items: start;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.build-main-area,
+.build-sidebar {
+  min-width: 0;
+}
+
+.build-main-area {
+  display: grid;
+  gap: 16px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.build-page-header {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(260px, auto);
+  align-items: end;
+  gap: 20px;
+}
+
+.build-page-header h1 {
+  margin: 0;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(3.6rem, 7vw, 6rem);
+  line-height: 0.82;
+  text-transform: uppercase;
+}
+
+.build-dashboard-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 18px;
+}
+
+.build-dashboard-actions button {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--muted-2);
+  cursor: pointer;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background var(--ease), border-color var(--ease), color var(--ease);
+}
+
+.build-dashboard-actions button:hover,
+.build-dashboard-actions button.is-active {
+  border-color: rgba(120, 216, 212, 0.38);
+  background: rgba(120, 216, 212, 0.12);
+  color: var(--text);
+}
+
+.build-focus-form {
+  display: grid;
+  gap: 8px;
+  width: min(520px, 100%);
+  margin-top: 14px;
+}
+
+.build-focus-form label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.build-focus-form div {
+  display: flex;
+  gap: 8px;
+}
+
+.build-focus-form input {
+  flex: 1;
+  min-width: 0;
+  min-height: 38px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text);
+  padding: 0 12px;
+  outline: none;
+}
+
+.build-focus-form input:focus {
+  border-color: rgba(120, 216, 212, 0.52);
+}
+
+.build-focus-form button {
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid rgba(120, 216, 212, 0.34);
+  border-radius: var(--radius);
+  background: rgba(120, 216, 212, 0.12);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.74rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.build-title-block {
+  display: grid;
+  justify-items: end;
+  gap: 6px;
+  text-align: right;
+}
+
+.build-title-block h2 {
+  margin: 0;
+  font-size: clamp(1.65rem, 2.5vw, 2.25rem);
+}
+
+.build-showcase-media {
+  display: grid;
+  place-items: center;
+  min-height: 420px;
+  overflow: hidden;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: rgba(0, 0, 0, 0.2);
+}
+
+.build-showcase-media img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  object-position: center;
+}
+
+.build-panels {
+  display: grid;
+  grid-template-columns: minmax(260px, 0.72fr) minmax(300px, 0.78fr);
+  gap: 24px;
+}
+
+.build-sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  position: sticky;
+  top: 20px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}
+
+.echo-grid {
+  display: grid;
+  gap: 8px;
+}
+
+.echo-card {
+  display: grid;
+  grid-template-columns: 42px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 12px;
+  min-height: 54px;
+  padding: 10px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.echo-icon {
+  width: 36px;
+  height: 36px;
+  display: grid;
+  place-items: center;
+  border: 1px solid rgba(120, 216, 212, 0.28);
+  border-radius: 50%;
+  background: rgba(120, 216, 212, 0.08);
+  color: var(--accent);
+  font-family: "Orbitron", sans-serif;
+  font-weight: 800;
+}
+
+.echo-card h3 {
+  margin: 0 0 5px;
+  overflow-wrap: anywhere;
+  font-size: 0.96rem;
+}
+
+.echo-card span {
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.echo-card strong {
+  color: var(--accent-strong);
+  white-space: nowrap;
+}
+
+.main-stats-panel {
+  padding: 16px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.main-stats-panel h3,
+.weapon-card h2 {
+  margin: 0 0 12px;
+  font-size: 0.92rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.cv-card {
+  padding: 22px;
+  border-color: rgba(199, 178, 123, 0.34);
+  background: rgba(199, 178, 123, 0.09);
+}
+
+.build-score-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.build-score-header > span {
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.metric-toggle {
+  display: inline-flex;
+  overflow: hidden;
+  border: 1px solid rgba(199, 178, 123, 0.34);
+  border-radius: 999px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.metric-toggle button {
+  min-width: 42px;
+  min-height: 28px;
+  border: 0;
+  background: transparent;
+  color: var(--muted-2);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+}
+
+.metric-toggle button.is-active {
+  background: rgba(199, 178, 123, 0.2);
+  color: var(--text);
+}
+
+.cv-card strong {
+  display: block;
+  margin: 10px 0 4px;
+  font-family: "Orbitron", sans-serif;
+  font-size: clamp(3rem, 6vw, 4.3rem);
+  line-height: 1;
+}
+
+.cv-card p {
+  margin: 0;
+  color: var(--muted-2);
+  line-height: 1.5;
+}
+
+.build-score-breakdown {
+  display: grid;
+  gap: 7px;
+  margin-top: 14px;
+  color: var(--muted-2);
+  font-size: 0.92rem;
+  font-weight: 700;
+}
+
+.echo-list-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.echo-list-header span {
+  color: var(--accent);
+  font-size: 0.76rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.echo-list-header strong {
+  color: var(--accent-strong);
+  font-family: "Orbitron", sans-serif;
+  font-size: 1.2rem;
+}
+
+.echo-metric-stack {
+  display: grid;
+  gap: 4px;
+  justify-items: end;
+  text-align: right;
+}
+
+.echo-metric-stack strong {
+  color: var(--accent-strong);
+}
+
+.echo-metric-stack span {
+  color: var(--muted);
+  font-size: 0.74rem;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.weapon-card,
+.build-progress-block,
+.echo-list-card {
+  padding: 18px;
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.stat-row {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid var(--line-soft);
+}
+
+.stat-row:last-child {
+  border-bottom: 0;
+}
+
+.stat-row span {
+  color: var(--muted);
+}
+
+.stat-row strong {
+  font-variant-numeric: tabular-nums;
+}
+
+.weapon-card strong,
+.weapon-card span,
+.weapon-card small {
+  display: block;
+}
+
+.weapon-card strong {
+  margin-bottom: 8px;
+  font-size: 1.08rem;
+}
+
+.weapon-card span,
+.weapon-card small {
+  color: var(--muted-2);
+  line-height: 1.55;
+}
+
+.build-progress-block {
+  display: grid;
+  gap: 12px;
+}
+
+.library-toolbar {
+  display: grid;
+  grid-template-columns: minmax(220px, 1fr) minmax(150px, 220px) minmax(150px, 220px);
+  gap: 12px;
+  margin-bottom: 18px;
+  padding: 16px;
+}
+
+.library-toolbar label {
+  display: grid;
+  gap: 8px;
+}
+
+.library-toolbar span {
+  color: var(--muted);
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+}
+
+.library-toolbar input,
+.library-toolbar select {
+  width: 100%;
+  min-height: 42px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: var(--surface-2);
+  color: var(--text);
+  padding: 0 12px;
+  outline: none;
+}
+
+.library-toolbar input:focus,
+.library-toolbar select:focus {
+  border-color: rgba(120, 216, 212, 0.52);
+}
+
+.library-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 14px;
+}
+
+.library-card {
+  display: grid;
+  grid-template-columns: 110px minmax(0, 1fr);
+  min-height: 190px;
+  overflow: hidden;
+  transition: transform var(--ease), border-color var(--ease), background var(--ease);
+}
+
+.library-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center top;
+  background: var(--surface-3);
+}
+
+.library-card-body {
+  display: grid;
+  align-content: space-between;
+  gap: 18px;
+  padding: 16px;
+}
+
+.library-card h2 {
+  margin: 6px 0 0;
+  overflow-wrap: anywhere;
+  font-size: 1.25rem;
+}
+
+.empty-state {
+  grid-column: 1 / -1;
+  padding: 28px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: rgba(16, 22, 32, 0.88);
+}
+
+.empty-state h2 {
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  margin: 0;
+  color: var(--muted);
+}
+
+.endgame-layout {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.endgame-card {
+  display: grid;
+  gap: 18px;
+  padding: clamp(18px, 2.4vw, 24px);
+}
+
+.endgame-card-head {
+  display: flex;
+  justify-content: space-between;
+  gap: 18px;
+}
+
+.endgame-card-head h2 {
+  margin: 8px 0 0;
+  font-size: 1.28rem;
+}
+
+.endgame-card-head > strong {
+  align-self: start;
+  padding: 7px 10px;
+  border: 1px solid rgba(199, 178, 123, 0.28);
+  border-radius: 999px;
+  background: rgba(199, 178, 123, 0.08);
+  color: var(--accent-strong);
+  font-size: 0.76rem;
+  white-space: nowrap;
+}
+
+.endgame-results {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+
+.endgame-results div {
+  padding: 14px;
+  border: 1px solid var(--line-soft);
+  border-radius: var(--radius);
+  background: rgba(255, 255, 255, 0.035);
+}
+
+.endgame-results span {
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted);
+  font-size: 0.76rem;
+}
+
+.endgame-results strong {
+  font-size: 1rem;
+}
+
+.timeline {
+  display: grid;
+  gap: 14px;
+}
+
+.timeline-item {
+  display: grid;
+  grid-template-columns: 14px minmax(0, 1fr);
+  gap: 12px;
+}
+
+.timeline-item > span {
+  width: 10px;
+  height: 10px;
+  margin-top: 5px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+.timeline-item strong {
+  display: block;
+  margin-bottom: 4px;
+  font-size: 0.9rem;
+}
+
+.timeline-item p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+@media (max-width: 1180px) {
+  .dashboard-grid,
+  .endgame-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .character-build {
+    grid-template-columns: 1fr;
+  }
+
+  .build-sidebar {
+    position: static;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .cv-card,
+  .echo-list-card {
+    grid-column: 1 / -1;
+  }
+}
+
+@media (max-width: 820px) {
+  .app-shell {
+    padding: 18px 14px 34px;
+  }
+
+  .topbar {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+
+  .nav-links {
+    width: 100%;
+    overflow-x: auto;
+  }
+
+  .nav-links a {
+    flex: 1;
+    justify-content: center;
+  }
+
+  .focus-card,
+  .character-build,
+  .library-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .focus-card {
+    min-height: 0;
+  }
+
+  .focus-art {
+    min-height: 380px;
+    order: -1;
+  }
+
+  .focus-art::after {
+    background: linear-gradient(180deg, transparent 52%, rgba(16, 22, 32, 0.96));
+  }
+
+  .mini-checklist {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .build-page-header,
+  .build-panels,
+  .build-sidebar {
+    grid-template-columns: 1fr;
+  }
+
+  .build-title-block {
+    justify-items: start;
+    text-align: left;
+  }
+
+  .build-showcase-media {
+    min-height: 320px;
+  }
+
+  .library-card {
+    grid-template-columns: 92px minmax(0, 1fr);
+  }
+
+  .endgame-card-head,
+  .endgame-results {
+    grid-template-columns: 1fr;
+  }
+
+  .endgame-card-head {
+    display: grid;
+  }
+
+  .endgame-card-head > strong {
+    width: max-content;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 520px) {
+  .brand {
+    font-size: 0.84rem;
+  }
+
+  .page-heading h1,
+  .focus-copy h2,
+  .build-page-header h1 {
+    font-size: 2.25rem;
+  }
+
+  .library-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .library-card {
+    grid-template-columns: 1fr;
+  }
+
+  .library-card img {
+    height: 260px;
+  }
+
+  .echo-card {
+    grid-template-columns: 42px minmax(0, 1fr);
+  }
+
+  .echo-card strong {
+    grid-column: 2;
+  }
+
+  .button {
+    width: 100%;
+  }
+
+  .build-focus-form div {
+    flex-direction: column;
+  }
+}
+

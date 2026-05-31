@@ -1,0 +1,4 @@
+renderDashboard();
+renderBuildPage();
+renderLibrary();
+renderEndgame();

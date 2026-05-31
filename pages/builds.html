@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Biblioteca de Builds | Wave Account Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../src/css/tokens.css" />
+    <link rel="stylesheet" href="../src/css/base.css" />
+    <link rel="stylesheet" href="../src/css/layout.css" />
+    <link rel="stylesheet" href="../src/css/components.css" />
+    <link rel="stylesheet" href="../src/css/pages.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="../index.html" aria-label="Voltar para o dashboard">
+          <span class="brand-mark"></span>
+          <span>Wave Account Hub</span>
+        </a>
+        <nav class="nav-links" aria-label="Navegacao principal">
+          <a href="../index.html">Dashboard</a>
+          <a class="is-active" href="builds.html">Builds</a>
+          <a href="endgame.html">Endgame</a>
+        </nav>
+      </header>
+
+      <section class="page-heading" aria-labelledby="libraryTitle">
+        <p class="eyebrow">Consulta rapida</p>
+        <h1 id="libraryTitle">Biblioteca de Builds</h1>
+        <p>Filtre por nome, elemento ou funcao e abra a build completa.</p>
+      </section>
+
+      <section class="library-toolbar" aria-label="Filtros da biblioteca">
+        <label>
+          <span>Nome</span>
+          <input id="nameFilter" type="search" placeholder="Buscar personagem" />
+        </label>
+        <label>
+          <span>Elemento</span>
+          <select id="elementFilter"></select>
+        </label>
+        <label>
+          <span>Funcao</span>
+          <select id="functionFilter"></select>
+        </label>
+      </section>
+
+      <section id="buildLibraryRoot" class="library-grid" aria-live="polite"></section>
+    </main>
+
+    <script src="../src/data/characters.js"></script>
+    <script src="../src/data/endgame.js"></script>
+    <script src="../src/js/common.js"></script>
+    <script src="../src/js/dashboard.js"></script>
+    <script src="../src/js/build-page.js"></script>
+    <script src="../src/js/build-library.js"></script>
+    <script src="../src/js/endgame-page.js"></script>
+    <script src="../src/js/app.js"></script>
+  </body>
+</html>

@@ -1,68 +1,45 @@
-# 📘 My Resonator Archive
+# Wave Account Hub
 
-Um projeto pessoal desenvolvido como um **arquivo interativo de
-personagens de Wuthering Waves**, com foco em organização de builds,
-funções e informações relevantes para uso próprio.
+Projeto pessoal para acompanhar progresso de conta, builds de personagens e
+resultados de endgame em Wuthering Waves.
 
-A proposta do projeto é servir como um **codex visual e prático**,
-reunindo dados de personagens em uma interface simples e acessível via
-navegador.
+## Funcionalidades
 
-------------------------------------------------------------------------
+- Dashboard com personagem em construcao, objetivo atual e favoritos.
+- Acoes na pagina de build para definir foco atual, favoritos e checklist.
+- Checklists persistidos no navegador para nivel, arma, talentos e ecos.
+- Pagina individual de build por personagem.
+- Destaque para CV total da build e CV individual dos ecos.
+- Analise de build com CV, RV, Match e Build Score a partir de `account.json`.
+- Biblioteca de builds com filtros por nome, elemento e funcao.
+- Tracker de endgame para Tower of Adversity, Whimpering Wastes e Matriz.
 
-## ✨ Funcionalidades
+## Estrutura
 
--   📂 Listagem de personagens\
--   🧩 Informações básicas (elemento, função, role)\
--   📝 Descrição resumida de gameplay\
--   ⚔️ Builds recomendadas\
--   🔄 Navegação entre páginas (ex: tela de builds)\
--   🌐 Hospedado via GitHub Pages
+```text
+assets/
+  images/
+    characters/
+    builds/
 
-------------------------------------------------------------------------
+index.html       Dashboard principal
+pages/
+  build.html     Pagina de build/personagem
+  builds.html    Biblioteca de builds
+  endgame.html   Tracker de endgame
 
-## 🖼️ Estrutura do Projeto
+src/
+  data/          Dados de personagens e endgame
+  js/            Renderizacao, storage e helpers
+  css/           Design system e estilos por camada
+```
 
-    assets/
-      images/
-        characters/
+## Tecnologias
 
-    pages/
-      builds.html
+- HTML5
+- CSS3
+- JavaScript Vanilla
 
-    index.html
-    styles.css
-    script.js
+## Uso
 
-------------------------------------------------------------------------
-
-## 🚀 Como acessar
-
-O projeto está disponível via GitHub Pages:
-
-👉 https://klayton-a-souza.github.io/my-resonator-archive/
-
-------------------------------------------------------------------------
-
-## 🛠️ Tecnologias utilizadas
-
--   HTML5\
--   CSS3\
--   JavaScript (Vanilla)
-
-------------------------------------------------------------------------
-
-## 📌 Objetivo
-
-Este projeto não tem fins comerciais.\
-Foi criado com o objetivo de:
-
--   Organizar informações pessoais sobre o jogo\
--   Praticar desenvolvimento web\
--   Servir como base para futuras melhorias
-
-------------------------------------------------------------------------
-
-## 📄 Licença
-
-Uso pessoal.
+Abra `index.html` no navegador para acessar o dashboard.

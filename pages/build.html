@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Build do Personagem | Wave Account Hub</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Orbitron:wght@600;700;800&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="../src/css/tokens.css" />
+    <link rel="stylesheet" href="../src/css/base.css" />
+    <link rel="stylesheet" href="../src/css/layout.css" />
+    <link rel="stylesheet" href="../src/css/components.css" />
+    <link rel="stylesheet" href="../src/css/pages.css" />
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="topbar">
+        <a class="brand" href="../index.html" aria-label="Voltar para o dashboard">
+          <span class="brand-mark"></span>
+          <span>Wave Account Hub</span>
+        </a>
+        <nav class="nav-links" aria-label="Navegacao principal">
+          <a href="../index.html">Dashboard</a>
+          <a href="builds.html">Builds</a>
+          <a href="endgame.html">Endgame</a>
+        </nav>
+      </header>
+
+      <section id="buildRoot" class="build-page-shell" aria-live="polite"></section>
+    </main>
+
+    <script src="../src/data/characters.js"></script>
+    <script src="../src/data/endgame.js"></script>
+    <script src="../src/js/common.js"></script>
+    <script src="../src/js/dashboard.js"></script>
+    <script src="../src/js/build-page.js"></script>
+    <script src="../src/js/build-library.js"></script>
+    <script src="../src/js/endgame-page.js"></script>
+    <script src="../src/js/app.js"></script>
+  </body>
+</html>
