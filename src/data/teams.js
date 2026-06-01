@@ -3,7 +3,7 @@ const characterTeams = [
     id: "jiyan-aero-carry",
     name: "Jiyan Aero Carry",
     lead: "Rotacao focada em dano pesado, buffs coordenados e sustain seguro.",
-    tags: ["Tower", "Boss", "Seguro"],
+    tags: ["Hypercarry", "Aero", "Seguro"],
     members: [
       {
         name: "Jiyan",
@@ -29,7 +29,7 @@ const characterTeams = [
     id: "jinhsi-burst-spectro",
     name: "Jinhsi Burst Spectro",
     lead: "Jinhsi como DPS principal, Yinlin como dano off-field e Shorekeeper como suporte para estabilizar criticos e sustain.",
-    tags: ["Burst", "Spectro", "Crit"],
+    tags: ["Hypercarry", "Spectro", "Crit"],
     members: [
       {
         name: "Jinhsi",
@@ -55,7 +55,7 @@ const characterTeams = [
     id: "calcharo-electro-carry",
     name: "Calcharo Electro Carry",
     lead: "Yinlin e a melhor parceira cadastrada para Electro/off-field, enquanto Shorekeeper deixa o time mais estavel.",
-    tags: ["Electro", "Boss", "Estavel"],
+    tags: ["Hypercarry", "Electro", "Estavel"],
     members: [
       {
         name: "Calcharo",
@@ -81,7 +81,7 @@ const characterTeams = [
     id: "encore-fusion-carry",
     name: "Encore Fusion Carry",
     lead: "Encore fica como DPS de campo, Sanhua ajuda em rotacao rapida/sub-DPS e Verina sustenta e buffa.",
-    tags: ["Fusion", "Quick Swap", "Seguro"],
+    tags: ["Hypercarry", "Fusion", "Quick Swap"],
     members: [
       {
         name: "Encore",
@@ -159,7 +159,7 @@ const characterTeams = [
     id: "hiyuki-glacio-carry",
     name: "Hiyuki Glacio Carry",
     lead: "Sanhua encaixa como Sub-DPS Glacio/quick swap, enquanto Mornye fecha o time com sustain defensivo.",
-    tags: ["Glacio", "Quick Swap", "Defensivo"],
+    tags: ["Hypercarry", "Glacio", "Quick Swap"],
     members: [
       {
         name: "Hiyuki",
