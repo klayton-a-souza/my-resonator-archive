@@ -25,6 +25,76 @@ function renderEchoAnalysisList(analysis, mode) {
     .join("");
 }
 
+function getTeamsForCharacter(character) {
+  if (!Array.isArray(window.characterTeams) && typeof characterTeams === "undefined") {
+    return [];
+  }
+
+  const teams = typeof characterTeams !== "undefined" ? characterTeams : window.characterTeams;
+
+  return teams.filter((team) => {
+    return team.members.some((member) => member.name === character.name);
+  });
+}
+
+function renderTeamSection(character) {
+  const teams = getTeamsForCharacter(character);
+
+  if (teams.length === 0) {
+    return "";
+  }
+
+  return `
+    <section class="team-section" aria-label="Times recomendados para ${escapeHtml(character.name)}">
+      <div class="section-title">
+        <div>
+          <p class="eyebrow">Composicao</p>
+          <h2>Times com ${escapeHtml(character.name)}</h2>
+        </div>
+      </div>
+      <div class="team-grid">
+        ${teams
+          .map((team) => {
+            return `
+              <article class="team-card">
+                <div class="team-card-head">
+                  <div>
+                    <span>Time recomendado</span>
+                    <h3>${escapeHtml(team.name)}</h3>
+                  </div>
+                  <div class="team-tags">
+                    ${team.tags.map((tag) => `<span>${escapeHtml(tag)}</span>`).join("")}
+                  </div>
+                </div>
+                <p>${escapeHtml(team.lead)}</p>
+                <div class="team-members">
+                  ${team.members
+                    .map((member, index) => {
+                      const isCurrent = member.name === character.name;
+
+                      return `
+                        <div class="team-member ${isCurrent ? "is-current" : ""}">
+                          <div class="team-avatar-wrap">
+                            <img src="${assetUrl(escapeHtml(member.image))}" alt="${escapeHtml(member.name)} em estilo chibi" loading="lazy" decoding="async" />
+                          </div>
+                          <strong>${escapeHtml(member.name)}</strong>
+                          <span>${escapeHtml(member.role)}</span>
+                          <small>${escapeHtml(member.note)}</small>
+                        </div>
+                        ${index < team.members.length - 1 ? `<span class="team-link" aria-hidden="true"></span>` : ""}
+                      `;
+                    })
+                    .join("")}
+                </div>
+              </article>
+            `;
+          })
+          .join("")}
+      </div>
+    </section>
+  `;
+}
+
 function renderBuildAnalysis(character, buildOverviewImage, analysis, mode) {
   const activeMode = mode === "rv" ? "rv" : "cv";
   const characterGoal = getCharacterGoal(character);
@@ -85,6 +155,8 @@ function renderBuildAnalysis(character, buildOverviewImage, analysis, mode) {
             </div>
           </section>
         </div>
+
+        ${renderTeamSection(character)}
       </section>
 
       <aside class="build-sidebar">
