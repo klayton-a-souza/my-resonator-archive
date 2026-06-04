@@ -244,7 +244,7 @@ function getEchoSubstats(echo) {
   }));
 }
 
-function getEchoCv(echo) {
+function calculateEchoCV(echo) {
   const substats = getEchoSubstats(echo);
   const critRate = substats.find((substat) => substat.normalizedType === "Crit Rate")?.value || 0;
   const critDamage = substats.find((substat) => substat.normalizedType === "Crit DMG")?.value || 0;
@@ -252,12 +252,34 @@ function getEchoCv(echo) {
   return critRate * 2 + critDamage;
 }
 
+function calculateCharacterCV(accountBuild) {
+  const stats = accountBuild?.character?.stats || {};
+  const critRate = Number(stats.critRate || 0);
+  const critDamage = Number(stats.critDamage || 0);
+
+  return critRate * 2 + critDamage;
+}
+
+function calculateCritScore(accountBuild) {
+  const stats = accountBuild?.character?.stats || {};
+  const critRate = Number(stats.critRate || 0);
+  const critDamage = Number(stats.critDamage || 0);
+  const critRateScore = Math.min((critRate / 100) * 100, 100);
+  const critDamageScore = (critDamage / 300) * 100;
+
+  return critRateScore * 0.5 + critDamageScore * 0.5;
+}
+
 function getTotalCvFromEchoes(echoes) {
-  return echoes.reduce((total, echo) => total + getEchoCv(echo), 0);
+  return echoes.reduce((total, echo) => total + calculateEchoCV(echo), 0);
 }
 
 function getTotalCv(character) {
   return character.echoes.reduce((total, echo) => total + (echo.cv || 0), 0).toFixed(1);
+}
+
+function getEchoCv(echo) {
+  return calculateEchoCV(echo);
 }
 
 function getAccountDataUrl() {
@@ -297,14 +319,15 @@ function getAccountBuildForCharacter(accountBuilds, character) {
   });
 }
 
-function getDesiredSubstatsFromAccountBuild(accountBuild) {
+function getDesiredSubstatsFromAccountBuild(accountBuild, character = null) {
   const rawSubstats =
     accountBuild?.substats ||
     accountBuild?.desiredSubstats ||
     accountBuild?.prioritySubstats ||
     accountBuild?.character?.substats ||
     accountBuild?.character?.desiredSubstats ||
-    accountBuild?.character?.prioritySubstats;
+    accountBuild?.character?.prioritySubstats ||
+    character?.substats;
 
   if (Array.isArray(rawSubstats) && rawSubstats.length > 0) {
     return rawSubstats.map(normalizeStatName);
@@ -313,13 +336,13 @@ function getDesiredSubstatsFromAccountBuild(accountBuild) {
   const fallbackStats = [
     "Crit Rate",
     "Crit DMG",
-    ...(accountBuild?.character?.bonusStats || []).map(normalizeStatName),
+    ...(accountBuild?.character?.bonusStats || character?.substats || []).map(normalizeStatName),
   ];
 
   return [...new Set(fallbackStats)].slice(0, 5);
 }
 
-function getEchoMatch(echo, desiredSubstats) {
+function calculateEchoMatch(echo, desiredSubstats) {
   const substatTypes = new Set(getEchoSubstats(echo).map((substat) => substat.normalizedType));
   const matched = desiredSubstats.filter((substat) => substatTypes.has(substat)).length;
 
@@ -329,7 +352,19 @@ function getEchoMatch(echo, desiredSubstats) {
   };
 }
 
-function getEchoRv(echo, desiredSubstats) {
+function calculateBuildMatch(echoes, desiredSubstats) {
+  const echoMatches = echoes.map((echo) => calculateEchoMatch(echo, desiredSubstats));
+  const matched = echoMatches.reduce((total, match) => total + match.matched, 0);
+  const total = echoMatches.reduce((sum, match) => sum + match.total, 0);
+
+  return {
+    matched,
+    total,
+    score: total > 0 ? (matched / total) * 100 : 0,
+  };
+}
+
+function calculateEchoRV(echo, desiredSubstats) {
   const desiredSet = new Set(desiredSubstats);
   const matchingRolls = getEchoSubstats(echo).filter((substat) => {
     return desiredSet.has(substat.normalizedType) && echoRollMaximums[substat.normalizedType];
@@ -346,6 +381,39 @@ function getEchoRv(echo, desiredSubstats) {
   return totalPercent / matchingRolls.length;
 }
 
+function calculateBuildRV(echoes, desiredSubstats) {
+  if (!Array.isArray(echoes) || echoes.length === 0) {
+    return 0;
+  }
+
+  const totalRv = echoes.reduce((total, echo) => {
+    return total + calculateEchoRV(echo, desiredSubstats);
+  }, 0);
+
+  return totalRv / echoes.length;
+}
+
+function getEchoMatch(echo, desiredSubstats) {
+  return calculateEchoMatch(echo, desiredSubstats);
+}
+
+function getEchoRv(echo, desiredSubstats) {
+  return calculateEchoRV(echo, desiredSubstats);
+}
+
+function isSupportBuild(character) {
+  return String(character?.role || "").toLowerCase() === "support";
+}
+
+function calculateBuildScore({ role, critScore, rv, matchScore }) {
+  const rawScore =
+    String(role || "").toLowerCase() === "support"
+      ? rv * 0.7 + matchScore * 0.3
+      : critScore * 0.4 + rv * 0.4 + matchScore * 0.2;
+
+  return Math.min(Math.max(rawScore, 0), 100);
+}
+
 function getBuildAnalysis(character, accountBuild) {
   const accountEchoes = Array.isArray(accountBuild?.echoes) ? accountBuild.echoes : [];
   const fallbackEchoes = character.echoes.map((echo) => ({
@@ -353,11 +421,12 @@ function getBuildAnalysis(character, accountBuild) {
     substats: [],
   }));
   const echoes = accountEchoes.length > 0 ? accountEchoes : fallbackEchoes;
-  const desiredSubstats = getDesiredSubstatsFromAccountBuild(accountBuild);
+  const desiredSubstats = getDesiredSubstatsFromAccountBuild(accountBuild, character);
+  const support = isSupportBuild(character);
   const echoAnalyses = echoes.map((echo, index) => {
-    const match = getEchoMatch(echo, desiredSubstats);
-    const cv = getEchoSubstats(echo).length > 0 ? getEchoCv(echo) : echo.cv || 0;
-    const rv = getEchoRv(echo, desiredSubstats);
+    const match = calculateEchoMatch(echo, desiredSubstats);
+    const cv = getEchoSubstats(echo).length > 0 ? calculateEchoCV(echo) : echo.cv || 0;
+    const rv = calculateEchoRV(echo, desiredSubstats);
 
     return {
       name: echo.name || character.echoes[index]?.name || `Eco ${index + 1}`,
@@ -369,29 +438,51 @@ function getBuildAnalysis(character, accountBuild) {
     };
   });
   const totalCv = getTotalCvFromEchoes(echoes);
-  const averageRv =
-    echoAnalyses.length > 0
-      ? echoAnalyses.reduce((total, echo) => total + echo.rv, 0) / echoAnalyses.length
-      : 0;
-  const totalMatched = echoAnalyses.reduce((total, echo) => total + echo.match.matched, 0);
-  const totalPossibleMatches = echoAnalyses.reduce((total, echo) => total + echo.match.total, 0);
-  const cvScore = Math.min((totalCv / 200) * 100, 100);
-  const matchScore = totalPossibleMatches > 0 ? (totalMatched / totalPossibleMatches) * 100 : 0;
-  const buildScore = Math.round(cvScore * 0.4 + averageRv * 0.4 + matchScore * 0.2);
+  const characterCv = calculateCharacterCV(accountBuild);
+  const critScore = calculateCritScore(accountBuild);
+  const averageRv = calculateBuildRV(echoes, desiredSubstats);
+  const match = calculateBuildMatch(echoes, desiredSubstats);
+  const buildScore = calculateBuildScore({
+    role: character.role,
+    critScore,
+    rv: averageRv,
+    matchScore: match.score,
+  });
 
   return {
+    support,
     desiredSubstats,
     echoes: echoAnalyses,
     totalCv,
+    characterCv,
     averageRv,
-    match: {
-      matched: totalMatched,
-      total: totalPossibleMatches,
-      score: matchScore,
-    },
-    cvScore,
+    match,
+    critScore,
     buildScore,
   };
+}
+
+function sortBuilds(builds) {
+  return [...builds].sort((left, right) => {
+    const leftSupport = isSupportBuild(left.character);
+    const rightSupport = isSupportBuild(right.character);
+
+    if (leftSupport !== rightSupport) {
+      return leftSupport ? -1 : 1;
+    }
+
+    if (leftSupport) {
+      return right.analysis.buildScore - left.analysis.buildScore;
+    }
+
+    const cvDifference = right.analysis.characterCv - left.analysis.characterCv;
+
+    if (cvDifference !== 0) {
+      return cvDifference;
+    }
+
+    return left.character.name.localeCompare(right.character.name);
+  });
 }
 
 function getProgressStorageKey(character) {

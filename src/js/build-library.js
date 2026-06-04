@@ -4,7 +4,7 @@ function populateLibrarySelect(select, options) {
     .join("");
 }
 
-function renderLibrary() {
+async function renderLibrary() {
   const root = document.querySelector("#buildLibraryRoot");
   const nameFilter = document.querySelector("#nameFilter");
   const elementFilter = document.querySelector("#elementFilter");
@@ -26,23 +26,55 @@ function renderLibrary() {
   populateLibrarySelect(elementFilter, elements);
   populateLibrarySelect(functionFilter, roles);
 
+  let accountBuilds = [];
+
+  root.innerHTML = `
+    <article class="empty-state">
+      <h2>Carregando builds</h2>
+      <p>Calculando Build Score, RV, Match e Character CV.</p>
+    </article>
+  `;
+
+  try {
+    accountBuilds = await loadAccountBuilds();
+  } catch {
+    accountBuilds = [];
+  }
+
   function updateLibrary() {
     const search = nameFilter.value.trim().toLowerCase();
     const selectedElement = elementFilter.value;
     const selectedRole = functionFilter.value;
-    const filteredCharacters = characters.filter((character) => {
-      const matchesName = character.name.toLowerCase().includes(search);
-      const matchesElement = selectedElement === "Todos" || character.element === selectedElement;
-      const matchesRole = selectedRole === "Todos" || character.role === selectedRole;
+    const filteredBuilds = sortBuilds(
+      characters
+        .filter((character) => {
+          const matchesName = character.name.toLowerCase().includes(search);
+          const matchesElement = selectedElement === "Todos" || character.element === selectedElement;
+          const matchesRole = selectedRole === "Todos" || character.role === selectedRole;
 
-      return matchesName && matchesElement && matchesRole;
-    });
+          return matchesName && matchesElement && matchesRole;
+        })
+        .map((character) => {
+          const accountBuild = getAccountBuildForCharacter(accountBuilds, character);
+
+          return {
+            character,
+            analysis: getBuildAnalysis(character, accountBuild),
+          };
+        })
+    );
 
     root.innerHTML =
-      filteredCharacters.length > 0
-        ? filteredCharacters
+      filteredBuilds.length > 0
+        ? filteredBuilds
             .map(
-              (character) => `
+              ({ character, analysis }) => {
+                const metricLabel = analysis.support ? "Build Score" : "Character CV";
+                const metricValue = analysis.support
+                  ? `${formatDecimal(analysis.buildScore)}/100`
+                  : formatDecimal(analysis.characterCv);
+
+                return `
                 <a class="library-card" href="${getBuildHref(character)}">
                   <img src="${assetUrl(escapeHtml(character.image))}" alt="${escapeHtml(character.name)}" loading="lazy" decoding="async" />
                   <div class="library-card-body">
@@ -53,11 +85,12 @@ function renderLibrary() {
                     <dl>
                       <div><dt>Build</dt><dd>${escapeHtml(character.buildName)}</dd></div>
                       <div><dt>Arma</dt><dd>${escapeHtml(character.weapon)}</dd></div>
-                      <div><dt>CV</dt><dd>${getTotalCv(character)}</dd></div>
+                      <div><dt>${metricLabel}</dt><dd>${metricValue}</dd></div>
                     </dl>
                   </div>
                 </a>
-              `
+              `;
+              }
             )
             .join("")
         : `<article class="empty-state"><h2>Nenhuma build encontrada</h2><p>Ajuste os filtros para consultar outros personagens.</p></article>`;

@@ -2,7 +2,7 @@ function renderEchoAnalysisList(analysis, mode) {
   return analysis.echoes
     .map((echo) => {
       const value =
-        mode === "rv"
+        analysis.support || mode === "rv"
           ? `
             <div class="echo-metric-stack">
               <strong>RV: ${formatDecimal(echo.rv, 0)}%</strong>
@@ -96,14 +96,32 @@ function renderTeamSection(character) {
 }
 
 function renderBuildAnalysis(character, buildOverviewImage, analysis, mode) {
-  const activeMode = mode === "rv" ? "rv" : "cv";
+  const activeMode = analysis.support || mode === "rv" ? "rv" : "cv";
   const characterGoal = getCharacterGoal(character);
   const metricTitle =
-    activeMode === "rv" ? "RV medio da build" : "CV total da build";
+    activeMode === "rv" ? "RV medio da build" : "Character CV";
   const metricValue =
     activeMode === "rv"
       ? `${formatDecimal(analysis.averageRv)}%`
-      : formatDecimal(analysis.totalCv);
+      : formatDecimal(analysis.characterCv);
+  const metricToggle = analysis.support
+    ? ""
+    : `
+      <div class="metric-toggle" aria-label="Alternar metrica dos ecos">
+        <button class="${activeMode === "cv" ? "is-active" : ""}" type="button" data-build-mode="cv">CV</button>
+        <button class="${activeMode === "rv" ? "is-active" : ""}" type="button" data-build-mode="rv">RV</button>
+      </div>
+    `;
+  const scoreBreakdown = analysis.support || activeMode === "rv"
+    ? `
+      <span>RV: ${formatDecimal(analysis.averageRv)}%</span>
+      <span>Match: ${analysis.match.matched}/${analysis.match.total}</span>
+    `
+    : `
+      <span>Character CV: ${formatDecimal(analysis.characterCv)}</span>
+      <span>RV: ${formatDecimal(analysis.averageRv)}%</span>
+      <span>Match: ${analysis.match.matched}/${analysis.match.total}</span>
+    `;
 
   return `
     <article class="character-build">
@@ -162,17 +180,12 @@ function renderBuildAnalysis(character, buildOverviewImage, analysis, mode) {
       <aside class="build-sidebar">
         <section class="cv-card">
           <div class="build-score-header">
-            <span>Build Score</span>
-            <div class="metric-toggle" aria-label="Alternar metrica dos ecos">
-              <button class="${activeMode === "cv" ? "is-active" : ""}" type="button" data-build-mode="cv">CV</button>
-              <button class="${activeMode === "rv" ? "is-active" : ""}" type="button" data-build-mode="rv">RV</button>
-            </div>
+            <span>BUILD SCORE</span>
+            ${metricToggle}
           </div>
-          <strong>${analysis.buildScore}/100</strong>
+          <strong>${formatDecimal(analysis.buildScore)}/100</strong>
           <div class="build-score-breakdown">
-            <span>CV: ${formatDecimal(analysis.totalCv)}</span>
-            <span>RV: ${formatDecimal(analysis.averageRv)}%</span>
-            <span>Match: ${analysis.match.matched}/${analysis.match.total}</span>
+            ${scoreBreakdown}
           </div>
         </section>
 
