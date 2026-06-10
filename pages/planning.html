@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Times | Wave Account Hub</title>
+    <title>Planejamento | Wave Account Hub</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
@@ -26,33 +26,28 @@
         <nav class="nav-links" aria-label="Navegacao principal">
           <a href="../index.html">Dashboard</a>
           <a href="builds.html">Builds</a>
-          <a class="is-active" href="teams.html">Times</a>
-          <a href="planning.html">Planejamento</a>
+          <a href="teams.html">Times</a>
+          <a class="is-active" href="planning.html">Planejamento</a>
           <a href="endgame.html">Endgame</a>
         </nav>
       </header>
 
-      <section class="page-heading" aria-labelledby="teamsTitle">
-        <p class="eyebrow">Composicoes</p>
-        <h1 id="teamsTitle">Times</h1>
-        <p>Composicoes cadastradas com funcoes, elementos e builds ligadas.</p>
+      <section class="page-heading" aria-labelledby="planningTitle">
+        <p class="eyebrow">Wishlist</p>
+        <h1 id="planningTitle">Planejamento</h1>
+        <p>Personagens desejados, times futuros e prioridades antes da build existir.</p>
       </section>
 
-      <section class="teams-toolbar" aria-label="Filtros de times">
-        <div id="teamFilterRoot" class="team-filter-row"></div>
-      </section>
-
-      <section id="teamsRoot" class="teams-page-list" aria-live="polite"></section>
+      <section id="planningRoot" class="planning-page" aria-live="polite"></section>
     </main>
 
     <script src="../src/data/characters.js"></script>
-    <script src="../src/data/teams.js"></script>
     <script src="../src/data/endgame.js"></script>
     <script src="../src/js/common.js"></script>
     <script src="../src/js/dashboard.js"></script>
     <script src="../src/js/build-page.js"></script>
     <script src="../src/js/build-library.js"></script>
-    <script src="../src/js/teams-page.js"></script>
+    <script src="../src/js/planning-page.js"></script>
     <script src="../src/js/endgame-page.js"></script>
     <script src="../src/js/app.js"></script>
   </body>

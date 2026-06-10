@@ -365,6 +365,10 @@
   gap: 8px;
 }
 
+.team-members-2 {
+  grid-template-columns: minmax(120px, 1fr) 34px minmax(120px, 1fr);
+}
+
 .team-member {
   display: grid;
   justify-items: center;
@@ -1042,6 +1046,10 @@
     grid-template-columns: 1fr;
   }
 
+  .planned-character-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .character-build {
     grid-template-columns: 1fr;
   }
@@ -1143,6 +1151,14 @@
 
   .team-members {
     grid-template-columns: 1fr;
+  }
+
+  .planned-character-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .planned-character-card {
+    min-height: 520px;
   }
 
   .team-link {
