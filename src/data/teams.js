@@ -156,10 +156,10 @@ const characterTeams = [
     ],
   },
   {
-    id: "hiyuki-glacio-carry",
-    name: "Hiyuki Glacio Carry",
-    lead: "Sanhua encaixa como Sub-DPS Glacio/quick swap, enquanto Mornye fecha o time com sustain defensivo.",
-    tags: ["Hypercarry", "Glacio", "Quick Swap"],
+    id: "hiyuki-lucilla-core",
+    name: "Hiyuki Lucilla Core",
+    lead: "Hiyuki fica como Main DPS, Lucilla entra como Sub-DPS Glacio e Mornye fecha o time com sustain defensivo.",
+    tags: ["Hypercarry", "Glacio", "Sustain"],
     members: [
       {
         name: "Hiyuki",
@@ -168,10 +168,10 @@ const characterTeams = [
         note: "Carry Glacio",
       },
       {
-        name: "Sanhua",
+        name: "Lucilla",
         role: "Sub-DPS",
-        image: "assets/images/characters/chibi/sanhua_chibi.png",
-        note: "Quick swap",
+        image: "assets/images/characters/chibi/lucilla_chibi.png",
+        note: "Dano de suporte",
       },
       {
         name: "Mornye",

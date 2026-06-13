@@ -324,10 +324,10 @@ function getDesiredSubstatsFromAccountBuild(accountBuild, character = null) {
     accountBuild?.substats ||
     accountBuild?.desiredSubstats ||
     accountBuild?.prioritySubstats ||
+    character?.substats ||
     accountBuild?.character?.substats ||
     accountBuild?.character?.desiredSubstats ||
-    accountBuild?.character?.prioritySubstats ||
-    character?.substats;
+    accountBuild?.character?.prioritySubstats;
 
   if (Array.isArray(rawSubstats) && rawSubstats.length > 0) {
     return rawSubstats.map(normalizeStatName);
@@ -336,7 +336,7 @@ function getDesiredSubstatsFromAccountBuild(accountBuild, character = null) {
   const fallbackStats = [
     "Crit Rate",
     "Crit DMG",
-    ...(accountBuild?.character?.bonusStats || character?.substats || []).map(normalizeStatName),
+    ...(character?.substats || accountBuild?.character?.bonusStats || []).map(normalizeStatName),
   ];
 
   return [...new Set(fallbackStats)].slice(0, 5);

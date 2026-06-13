@@ -1,21 +1,12 @@
 const plannedCharacters = [
   {
-    name: "Lucilla",
-    image: "assets/images/characters/lucilla.png",
-    chibi: "assets/images/characters/chibi/lucilla_chibi.png",
-    status: "Desejada",
-    priority: "Alta prioridade",
-    goal: "Completar o time ideal da Hiyuki.",
-    teamIds: ["hiyuki-ideal-planned"],
-  },
-  {
     name: "Chisa",
     image: "assets/images/characters/chisa.png",
     chibi: "assets/images/characters/chibi/chisa_chibi.png",
     status: "Desejada",
     priority: "Alta prioridade",
-    goal: "Entrar no core ideal da Hiyuki.",
-    teamIds: ["hiyuki-ideal-planned"],
+    goal: "Testar uma variacao futura no core da Hiyuki.",
+    teamIds: ["hiyuki-chisa-planned"],
   },
   {
     name: "Lynae",
@@ -30,10 +21,10 @@ const plannedCharacters = [
 
 const plannedTeams = [
   {
-    id: "hiyuki-ideal-planned",
-    name: "Hiyuki Ideal",
-    lead: "Composicao planejada para quando Lucilla e Chisa entrarem na conta.",
-    tags: ["Planejado", "Glacio", "2 alvos"],
+    id: "hiyuki-chisa-planned",
+    name: "Hiyuki + Chisa",
+    lead: "Variacao futura para testar Chisa junto de Hiyuki e Lucilla, mantendo apenas Chisa como alvo desejado.",
+    tags: ["Planejado", "Glacio", "Chisa"],
     members: [
       {
         name: "Hiyuki",
@@ -45,8 +36,7 @@ const plannedTeams = [
         name: "Lucilla",
         role: "Sub-DPS",
         image: "assets/images/characters/chibi/lucilla_chibi.png",
-        note: "Alvo desejado",
-        planned: true,
+        note: "Ja na conta",
       },
       {
         name: "Chisa",
