@@ -384,10 +384,28 @@
 }
 
 .summary-card {
-  display: block;
+  display: grid;
+  gap: 12px;
   padding: 16px;
   background: rgba(255, 255, 255, 0.035);
   transition: transform var(--ease), border-color var(--ease), background var(--ease);
+}
+
+.summary-card-toggle {
+  display: grid;
+  gap: 0;
+  width: 100%;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+  text-align: left;
+}
+
+.summary-card.is-expanded {
+  border-color: rgba(120, 216, 212, 0.34);
+  background: rgba(120, 216, 212, 0.07);
 }
 
 .summary-card > span,
@@ -474,6 +492,57 @@
   height: 100%;
   border-radius: inherit;
   background: linear-gradient(90deg, var(--accent), var(--accent-strong));
+}
+
+.summary-progress-form {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr)) auto;
+  gap: 8px;
+  align-items: end;
+  padding-top: 2px;
+}
+
+.summary-progress-form label {
+  display: grid;
+  gap: 6px;
+  min-width: 0;
+}
+
+.summary-progress-form label span {
+  color: var(--muted);
+  font-size: 0.68rem;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.summary-progress-form input {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid var(--line-soft);
+  border-radius: 7px;
+  background: rgba(255, 255, 255, 0.045);
+  color: var(--text);
+  padding: 0 9px;
+  outline: none;
+}
+
+.summary-progress-form input:focus {
+  border-color: rgba(120, 216, 212, 0.52);
+}
+
+.summary-progress-form button {
+  min-height: 34px;
+  padding: 0 10px;
+  border: 1px solid rgba(120, 216, 212, 0.3);
+  border-radius: 7px;
+  background: rgba(120, 216, 212, 0.1);
+  color: var(--text);
+  cursor: pointer;
+  font-size: 0.7rem;
+  font-weight: 800;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
 }
 
 dl {

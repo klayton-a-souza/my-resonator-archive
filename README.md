@@ -1,4 +1,4 @@
-# Wave Account Hub
+# Arquivo Pessoal
 
 Projeto pessoal para acompanhar progresso de conta, builds de personagens e
 resultados de endgame em Wuthering Waves.
@@ -12,7 +12,7 @@ resultados de endgame em Wuthering Waves.
 - Destaque para CV total da build e CV individual dos ecos.
 - Analise de build com CV, RV, Match e Build Score a partir de `account.json`.
 - Biblioteca de builds com filtros por nome, elemento e funcao.
-- Tracker de endgame para Tower of Adversity, Whimpering Wastes e Matriz.
+- Resumo/editavel de endgame no Dashboard para Tower of Adversity, Whimpering Wastes e Endstate Matrix.
 
 ## Estrutura
 
@@ -26,7 +26,6 @@ index.html       Dashboard principal
 pages/
   build.html     Pagina de build/personagem
   builds.html    Biblioteca de builds
-  endgame.html   Tracker de endgame
 
 src/
   data/          Dados de personagens e endgame

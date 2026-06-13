@@ -24,13 +24,9 @@
 }
 
 .brand-mark {
-  width: 30px;
-  height: 30px;
-  border: 1px solid rgba(120, 216, 212, 0.9);
-  background:
-    linear-gradient(135deg, transparent 43%, var(--accent) 44%, var(--accent) 56%, transparent 57%),
-    linear-gradient(45deg, rgba(199, 178, 123, 0.3), rgba(120, 216, 212, 0.16));
-  transform: rotate(45deg);
+  width: 34px;
+  height: 34px;
+  background: url("../../assets/images/icons/app-icon.png") center / contain no-repeat;
 }
 
 .nav-links {

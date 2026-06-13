@@ -8,4 +8,3 @@ if (typeof renderTeamsPage === "function") {
 if (typeof renderPlanningPage === "function") {
   renderPlanningPage();
 }
-renderEndgame();

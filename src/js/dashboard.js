@@ -1,4 +1,5 @@
 let favoriteCarouselIndex = 0;
+let expandedEndgameSummaryKey = null;
 
 async function getDashboardFocusLevel(focusCharacter) {
   try {
@@ -103,7 +104,6 @@ function renderDashboard() {
           </div>
           <div class="focus-actions">
             <a class="button primary" href="${getBuildHref(focusCharacter)}">Ver build</a>
-            <a class="button ghost" href="${pageUrl("endgame.html")}">Endgame</a>
           </div>
         </div>
         <div class="focus-art">
@@ -131,23 +131,42 @@ function renderDashboard() {
               const progressPercent = getEndgameProgressPercent(progress);
 
               return `
-                <a class="summary-card" href="${pageUrl("endgame.html")}">
-                  <div class="summary-card-head">
-                    ${
-                      mode.icon
-                        ? `<img src="${assetUrl(escapeHtml(mode.icon))}" alt="" loading="lazy" decoding="async" />`
-                        : `<span>${escapeHtml(mode.shortName)}</span>`
-                    }
-                    <h3>${escapeHtml(mode.name)}</h3>
-                  </div>
-                  <div class="summary-progress">
-                    <div>
-                      <span>${escapeHtml(mode.metricLabel)}</span>
-                      <strong>${progress.current}/${progress.total}</strong>
+                <article class="summary-card ${expandedEndgameSummaryKey === getEndgameModeKey(mode) ? "is-expanded" : ""}" data-endgame-summary="${escapeHtml(getEndgameModeKey(mode))}">
+                  <button class="summary-card-toggle" type="button" data-endgame-summary-toggle="${escapeHtml(getEndgameModeKey(mode))}" aria-expanded="${expandedEndgameSummaryKey === getEndgameModeKey(mode)}">
+                    <div class="summary-card-head">
+                      ${
+                        mode.icon
+                          ? `<img src="${assetUrl(escapeHtml(mode.icon))}" alt="" loading="lazy" decoding="async" />`
+                          : `<span>${escapeHtml(mode.shortName)}</span>`
+                      }
+                      <h3>${escapeHtml(mode.name)}</h3>
                     </div>
-                    <i><b style="width: ${progressPercent}%"></b></i>
-                  </div>
-                </a>
+                    <div class="summary-progress">
+                      <div>
+                        <span>${escapeHtml(mode.metricLabel)}</span>
+                        <strong>${progress.current}/${progress.total}</strong>
+                      </div>
+                      <i><b style="width: ${progressPercent}%"></b></i>
+                    </div>
+                  </button>
+                  ${
+                    expandedEndgameSummaryKey === getEndgameModeKey(mode)
+                      ? `
+                        <form class="summary-progress-form" data-dashboard-endgame-form="${escapeHtml(getEndgameModeKey(mode))}">
+                          <label>
+                            <span>Atual</span>
+                            <input type="number" min="0" value="${progress.current}" data-progress-current />
+                          </label>
+                          <label>
+                            <span>Total</span>
+                            <input type="number" min="1" value="${progress.total}" data-progress-total />
+                          </label>
+                          <button type="submit">Salvar</button>
+                        </form>
+                      `
+                      : ""
+                  }
+                </article>
               `;
             })
             .join("")}
@@ -189,6 +208,36 @@ function renderDashboard() {
   `;
 
   bindChecklists(root);
+
+  root.querySelectorAll("[data-endgame-summary-toggle]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const nextKey = button.dataset.endgameSummaryToggle;
+
+      expandedEndgameSummaryKey =
+        expandedEndgameSummaryKey === nextKey ? null : nextKey;
+      renderDashboard();
+    });
+  });
+
+  root.querySelectorAll("[data-dashboard-endgame-form]").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+
+      const mode = endgameModes.find((endgameMode) => {
+        return getEndgameModeKey(endgameMode) === form.dataset.dashboardEndgameForm;
+      });
+
+      if (!mode) {
+        return;
+      }
+
+      updateEndgameProgress(mode, {
+        current: form.querySelector("[data-progress-current]").value,
+        total: form.querySelector("[data-progress-total]").value,
+      });
+      renderDashboard();
+    });
+  });
 
   root.querySelectorAll("[data-favorite-carousel-step]").forEach((button) => {
     button.addEventListener("click", () => {
