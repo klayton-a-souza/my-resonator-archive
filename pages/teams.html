@@ -38,8 +38,13 @@
         <p>Composicoes cadastradas com funcoes, elementos e builds ligadas.</p>
       </section>
 
-      <section class="teams-toolbar" aria-label="Filtros de times">
+      <section class="teams-toolbar" aria-label="Filtros e ordem dos times">
         <div id="teamFilterRoot" class="team-filter-row"></div>
+        <div class="team-order-toolbar">
+          <p id="teamOrderHint">Arraste os cards para reorganizar ou use as setas.</p>
+          <button id="resetTeamOrder" class="team-order-reset" type="button">Restaurar ordem</button>
+        </div>
+        <p id="teamOrderStatus" class="sr-only" aria-live="polite"></p>
       </section>
 
       <section id="teamsRoot" class="teams-page-list" aria-live="polite"></section>

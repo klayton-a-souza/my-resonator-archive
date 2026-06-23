@@ -28,7 +28,7 @@ const characterTeams = [
   {
     id: "jinhsi-burst-spectro",
     name: "Jinhsi Burst Spectro",
-    lead: "Jinhsi como DPS principal, Yinlin como dano off-field e Shorekeeper como suporte para estabilizar criticos e sustain.",
+    lead: "Jinhsi como DPS principal, Rebecca como dano off-field e Shorekeeper como suporte para estabilizar criticos e sustain.",
     tags: ["Hypercarry", "Spectro", "Crit"],
     members: [
       {
@@ -38,9 +38,9 @@ const characterTeams = [
         note: "Burst principal",
       },
       {
-        name: "Yinlin",
+        name: "Rebecca",
         role: "Sub-DPS",
-        image: "assets/images/characters/chibi/yinlin_chibi.png",
+        image: "assets/images/characters/chibi/rebecca_chibi.png",
         note: "Dano off-field",
       },
       {

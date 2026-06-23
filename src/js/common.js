@@ -598,6 +598,7 @@ function getAppBackupData() {
     characterProgress,
     endgameProgress: parseStoredJson("ww-endgame-progress", {}),
     endgameCycles: parseStoredJson("ww-endgame-cycles", {}),
+    teamOrder: parseStoredJson("ww-team-order", []),
   };
 }
 
@@ -652,6 +653,10 @@ function importAppBackup(backup) {
 
   if (backup.endgameCycles) {
     localStorage.setItem("ww-endgame-cycles", JSON.stringify(backup.endgameCycles));
+  }
+
+  if (Array.isArray(backup.teamOrder)) {
+    localStorage.setItem("ww-team-order", JSON.stringify(backup.teamOrder));
   }
 }
 

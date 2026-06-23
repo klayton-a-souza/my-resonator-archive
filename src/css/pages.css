@@ -171,7 +171,20 @@
 }
 
 .teams-toolbar {
+  display: grid;
+  gap: 12px;
   margin-bottom: 16px;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
 }
 
 .team-filter-row {
@@ -202,6 +215,38 @@
   color: var(--text);
 }
 
+.team-order-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.team-order-toolbar p {
+  margin: 0;
+  color: var(--muted);
+  font-size: 0.82rem;
+}
+
+.team-order-reset {
+  min-height: 34px;
+  padding: 0 12px;
+  border: 1px solid var(--line-soft);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--muted-2);
+  cursor: pointer;
+  font-size: 0.72rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.team-order-reset:hover {
+  border-color: rgba(199, 178, 123, 0.42);
+  color: var(--text);
+}
+
 .teams-page-list {
   display: grid;
   gap: 14px;
@@ -227,6 +272,16 @@
   background:
     linear-gradient(110deg, var(--team-accent-soft), rgba(255, 255, 255, 0.025) 42%),
     rgba(16, 22, 32, 0.92);
+  transition: border-color var(--ease), opacity var(--ease), transform var(--ease);
+}
+
+.team-page-card.is-dragging {
+  opacity: 0.42;
+}
+
+.team-page-card.is-drag-target {
+  border-color: var(--team-accent);
+  transform: translateY(3px);
 }
 
 .team-element-aero {
@@ -324,6 +379,50 @@
 .team-card-head h3 {
   margin: 5px 0 0;
   font-size: clamp(1.22rem, 2vw, 1.65rem);
+}
+
+.team-card-tools {
+  display: grid;
+  justify-items: end;
+  gap: 9px;
+}
+
+.team-order-controls {
+  display: flex;
+  gap: 6px;
+}
+
+.team-order-controls button {
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  padding: 0;
+  border: 1px solid color-mix(in srgb, var(--team-accent) 34%, var(--line-soft));
+  border-radius: 8px;
+  background: color-mix(in srgb, var(--team-accent) 8%, rgba(255, 255, 255, 0.025));
+  color: var(--team-accent);
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.team-order-controls button[data-team-drag] {
+  cursor: grab;
+  touch-action: none;
+}
+
+.team-order-controls button[data-team-drag]:active {
+  cursor: grabbing;
+}
+
+.team-order-controls button:hover:not(:disabled) {
+  border-color: var(--team-accent);
+  background: color-mix(in srgb, var(--team-accent) 16%, rgba(255, 255, 255, 0.025));
+}
+
+.team-order-controls button:disabled {
+  cursor: not-allowed;
+  opacity: 0.35;
 }
 
 .team-tags {
@@ -1118,6 +1217,15 @@
 
   .team-card-head {
     display: grid;
+  }
+
+  .team-card-tools {
+    justify-items: start;
+  }
+
+  .team-order-toolbar {
+    align-items: start;
+    flex-direction: column;
   }
 
   .team-page-card {
