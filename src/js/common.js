@@ -177,6 +177,10 @@ function pageUrl(pageName) {
 }
 
 function assetUrl(path) {
+  if (/^(?:https?:)?\/\//.test(path)) {
+    return path;
+  }
+
   return isInPagesDir() ? `../${path}` : path;
 }
 
@@ -309,7 +313,7 @@ function getAccountBuildForCharacter(accountBuilds, character) {
   };
   const characterName = normalizeCharacterName(character.name);
 
-  return accountBuilds.find((build) => {
+  const accountBuild = accountBuilds.find((build) => {
     const buildCharacterName =
       typeof build.character === "string"
         ? build.character
@@ -317,6 +321,31 @@ function getAccountBuildForCharacter(accountBuilds, character) {
 
     return normalizeCharacterName(buildCharacterName) === characterName;
   });
+
+  const override = character.accountBuildOverride;
+
+  if (accountBuild || !override) {
+    return accountBuild || null;
+  }
+
+  return {
+    ...(accountBuild || {}),
+    ...override,
+    character: {
+      ...(accountBuild?.character || {}),
+      name: character.name,
+      ...(override.character || {}),
+      stats: {
+        ...(accountBuild?.character?.stats || {}),
+        ...(override.character?.stats || {}),
+      },
+    },
+    weapon: {
+      ...(accountBuild?.weapon || {}),
+      ...(override.weapon || {}),
+    },
+    echoes: override.echoes || accountBuild?.echoes || [],
+  };
 }
 
 function getDesiredSubstatsFromAccountBuild(accountBuild, character = null) {

@@ -26,6 +26,32 @@ const characterTeams = [
     ],
   },
   {
+    id: "jingran-heavy-attack",
+    name: "Jingran Heavy Attack",
+    lead: "Jingran concentra o tempo de campo e o dano de Ataque Pesado, enquanto Mortefi fornece dano coordenado e amplificacao para a janela ofensiva. Shorekeeper fecha a composicao com cura e buffs gerais de Crit e dano.",
+    tags: ["Hypercarry", "Fusion", "Ataque Pesado"],
+    members: [
+      {
+        name: "Jingran",
+        role: "Main DPS",
+        image: "assets/images/characters/chibi/jingran_chibi.png",
+        note: "DPS e Ataque Pesado",
+      },
+      {
+        name: "Mortefi",
+        role: "Sub-DPS",
+        image: "assets/images/characters/chibi/mortefi_chibi.png",
+        note: "Coordenado e buff pesado",
+      },
+      {
+        name: "Shorekeeper",
+        role: "Support",
+        image: "assets/images/characters/chibi/shorekeeper_chibi.png",
+        note: "Cura, Crit e dano",
+      },
+    ],
+  },
+  {
     id: "jinhsi-burst-spectro",
     name: "Jinhsi Burst Spectro",
     lead: "Jinhsi como DPS principal, Rebecca como dano off-field e Shorekeeper como suporte para estabilizar criticos e sustain.",
