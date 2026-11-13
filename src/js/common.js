@@ -291,6 +291,11 @@ function getAccountDataUrl() {
 }
 
 async function loadAccountBuilds() {
+  // Browsers block fetch of JSON when pages are opened directly from disk.
+  if (window.location.protocol === "file:" && typeof localAccountBuilds !== "undefined") {
+    return localAccountBuilds;
+  }
+
   const response = await fetch(getAccountDataUrl());
 
   if (!response.ok) {

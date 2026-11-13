@@ -247,7 +247,7 @@ async function renderBuildPage() {
     const accountBuilds = await loadAccountBuilds();
     accountBuild = getAccountBuildForCharacter(accountBuilds, character);
   } catch {
-    accountBuild = null;
+    accountBuild = getAccountBuildForCharacter([], character);
   }
 
   function updateBuildView() {

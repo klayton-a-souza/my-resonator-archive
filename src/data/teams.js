@@ -1,4 +1,34 @@
 const characterTeams = [
+{
+  "id": "hsin-suoming-lily",
+  "name": "Hsin + Suoming + Lily",
+  "lead": "Hsin como DPS principal, Suoming como Sub-DPS e suporte Electro, Lily como suporte e cura.",
+  "tags": [
+    "Electro",
+    "Suporte",
+    "Cura"
+  ],
+  "members": [
+    {
+      "name": "Hsin",
+      "role": "Main DPS",
+      "image": "assets/images/characters/chibi/hsin_chibi.png",
+      "note": "DPS principal"
+    },
+    {
+      "name": "Suoming",
+      "role": "Sub-DPS",
+      "image": "assets/images/characters/chibi/suoming_chibi.png",
+      "note": "Suporte Electro"
+    },
+    {
+      "name": "Lily",
+      "role": "Support",
+      "image": "assets/images/characters/chibi/lily_chibi.png",
+      "note": "Suporte e cura"
+    }
+  ]
+},
   {
     id: "jiyan-aero-carry",
     name: "Jiyan Aero Carry",

@@ -1,0 +1,13 @@
+{
+  "characterKey": null,
+  "displayNameObserved": "Hsin",
+  "sources": {
+    "recommendations": {"path": "recommendations.png"},
+    "actualBuild": {"path": "real-build.png"}
+  },
+  "recommended": {},
+  "actual": {},
+  "unreadable": [],
+  "conflicts": [],
+  "confirmed": false
+}

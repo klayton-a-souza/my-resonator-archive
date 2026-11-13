@@ -1,0 +1,4 @@
+interface:
+  display_name: "My Resonator Archive: importar builds"
+  short_description: "Cadastra personagens usando infográfico e build real"
+  default_prompt: "Use $my-resonator-archive-build-importer para cadastrar ou atualizar personagens com duas imagens por personagem, separando metas de stats reais e validando o esquema do projeto."
