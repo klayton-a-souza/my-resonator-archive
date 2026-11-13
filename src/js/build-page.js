@@ -108,8 +108,8 @@ function renderBuildAnalysis(character, buildOverviewImage, analysis, mode) {
     ? ""
     : `
       <div class="metric-toggle" aria-label="Alternar metrica dos ecos">
-        <button class="${activeMode === "cv" ? "is-active" : ""}" type="button" data-build-mode="cv">CV</button>
-        <button class="${activeMode === "rv" ? "is-active" : ""}" type="button" data-build-mode="rv">RV</button>
+        <button class="${activeMode === "cv" ? "is-active" : ""}" type="button" aria-pressed="${activeMode === "cv"}" data-build-mode="cv">CV</button>
+        <button class="${activeMode === "rv" ? "is-active" : ""}" type="button" aria-pressed="${activeMode === "rv"}" data-build-mode="rv">RV</button>
       </div>
     `;
   const scoreBreakdown = analysis.support || activeMode === "rv"
@@ -131,13 +131,13 @@ function renderBuildAnalysis(character, buildOverviewImage, analysis, mode) {
             <p class="eyebrow">Visao geral da build</p>
             <h1>${escapeHtml(character.name)}</h1>
             <div class="build-dashboard-actions" aria-label="Acoes da dashboard">
-              <button class="${isDashboardFocusCharacter(character) ? "is-active" : ""}" type="button" data-dashboard-action="focus">
+              <button class="${isDashboardFocusCharacter(character) ? "is-active" : ""}" type="button" aria-pressed="${isDashboardFocusCharacter(character)}" data-dashboard-action="focus">
                 ${isDashboardFocusCharacter(character) ? "Em construcao" : "Definir construcao"}
               </button>
-              <button class="${isDashboardFavoriteCharacter(character) ? "is-active" : ""}" type="button" data-dashboard-action="favorite">
+              <button class="${isDashboardFavoriteCharacter(character) ? "is-active" : ""}" type="button" aria-pressed="${isDashboardFavoriteCharacter(character)}" data-dashboard-action="favorite">
                 ${isDashboardFavoriteCharacter(character) ? "Favorito" : "Adicionar favorito"}
               </button>
-              <button class="${isDashboardChecklistCharacter(character) ? "is-active" : ""}" type="button" data-dashboard-action="checklist">
+              <button class="${isDashboardChecklistCharacter(character) ? "is-active" : ""}" type="button" aria-pressed="${isDashboardChecklistCharacter(character)}" data-dashboard-action="checklist">
                 ${isDashboardChecklistCharacter(character) ? "No checklist" : "Adicionar checklist"}
               </button>
             </div>
@@ -251,6 +251,7 @@ async function renderBuildPage() {
   }
 
   function updateBuildView() {
+    const restoreFocus = captureControlFocus(root);
     const analysis = getBuildAnalysis(character, accountBuild);
 
     root.innerHTML = renderBuildAnalysis(
@@ -259,6 +260,7 @@ async function renderBuildPage() {
       analysis,
       activeMode
     );
+    restoreFocus();
     bindChecklists(root);
 
     root.querySelectorAll("[data-build-mode]").forEach((button) => {

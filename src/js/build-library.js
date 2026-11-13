@@ -64,6 +64,9 @@ async function renderLibrary() {
         })
     );
 
+    root.setAttribute("aria-busy", "false");
+    const count = document.querySelector("#libraryResultCount");
+    if (count) count.textContent = `${filteredBuilds.length} builds encontradas.`;
     root.innerHTML =
       filteredBuilds.length > 0
         ? filteredBuilds

@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../src/css/pages.css" />
   </head>
   <body>
+    <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
     <main class="app-shell">
       <header class="topbar">
         <a class="brand" href="../index.html" aria-label="Voltar para o dashboard">
@@ -28,11 +29,11 @@
           <a href="../index.html">Dashboard</a>
           <a href="builds.html">Builds</a>
           <a href="teams.html">Times</a>
-          <a class="is-active" href="planning.html">Planejamento</a>
+          <a class="is-active" aria-current="page" href="planning.html">Planejamento</a>
         </nav>
       </header>
 
-      <section class="page-heading" aria-labelledby="planningTitle">
+      <section id="mainContent" tabindex="-1" class="page-heading" aria-labelledby="planningTitle">
         <p class="eyebrow">Wishlist</p>
         <h1 id="planningTitle">Planejamento</h1>
         <p>Personagens desejados, times futuros e prioridades antes da build existir.</p>

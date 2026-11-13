@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="src/css/pages.css" />
   </head>
   <body>
+    <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
     <main class="app-shell">
       <header class="topbar">
         <a class="brand" href="index.html" aria-label="Wuthering Waves Arquivo Pessoal">
@@ -25,14 +26,14 @@
           <span>Arquivo Pessoal</span>
         </a>
         <nav class="nav-links" aria-label="Navegacao principal">
-          <a class="is-active" href="index.html">Dashboard</a>
+          <a class="is-active" aria-current="page" href="index.html">Dashboard</a>
           <a href="pages/builds.html">Builds</a>
           <a href="pages/teams.html">Times</a>
           <a href="pages/planning.html">Planejamento</a>
         </nav>
       </header>
 
-      <section class="page-heading" aria-labelledby="dashboardTitle">
+      <section id="mainContent" tabindex="-1" class="page-heading" aria-labelledby="dashboardTitle">
         <p class="eyebrow">Controle da conta</p>
         <h1 id="dashboardTitle">Dashboard</h1>
         <p>

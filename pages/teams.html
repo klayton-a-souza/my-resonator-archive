@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../src/css/pages.css" />
   </head>
   <body>
+    <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
     <main class="app-shell">
       <header class="topbar">
         <a class="brand" href="../index.html" aria-label="Voltar para o dashboard">
@@ -27,12 +28,12 @@
         <nav class="nav-links" aria-label="Navegacao principal">
           <a href="../index.html">Dashboard</a>
           <a href="builds.html">Builds</a>
-          <a class="is-active" href="teams.html">Times</a>
+          <a class="is-active" aria-current="page" href="teams.html">Times</a>
           <a href="planning.html">Planejamento</a>
         </nav>
       </header>
 
-      <section class="page-heading" aria-labelledby="teamsTitle">
+      <section id="mainContent" tabindex="-1" class="page-heading" aria-labelledby="teamsTitle">
         <p class="eyebrow">Composicoes</p>
         <h1 id="teamsTitle">Times</h1>
         <p>Composicoes cadastradas com funcoes, elementos e builds ligadas.</p>

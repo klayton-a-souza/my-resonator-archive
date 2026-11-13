@@ -166,6 +166,8 @@ function renderTeamsPage() {
   }
 
   function updateTeams() {
+    const restoreFocus = captureControlFocus(root);
+    const restoreFilterFocus = captureControlFocus(filterRoot);
     const orderEnabled = activeFilter === "Todos";
     const orderedTeams = sortTeamsByOrder(characterTeams, teamOrder);
     const filteredTeams = orderedTeams.filter((team) => teamMatchesFilter(team, activeFilter));
@@ -173,7 +175,7 @@ function renderTeamsPage() {
     filterRoot.innerHTML = filters
       .map(
         (filter) => `
-          <button class="${filter === activeFilter ? "is-active" : ""}" type="button" data-team-filter="${escapeHtml(filter)}">
+          <button class="${filter === activeFilter ? "is-active" : ""}" type="button" aria-pressed="${filter === activeFilter}" data-team-filter="${escapeHtml(filter)}">
             ${escapeHtml(filter)}
           </button>
         `
@@ -184,6 +186,9 @@ function renderTeamsPage() {
       filteredTeams.length > 0
         ? filteredTeams.map((team) => renderTeamPageCard(team, orderEnabled)).join("")
         : `<article class="empty-state"><h2>Nenhum time encontrado</h2><p>Escolha outro filtro para ver mais composicoes.</p></article>`;
+
+    restoreFocus();
+    restoreFilterFocus();
 
     if (orderHint) {
       orderHint.textContent = orderEnabled

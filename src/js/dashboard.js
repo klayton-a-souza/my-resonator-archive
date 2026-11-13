@@ -65,7 +65,7 @@ function renderFavoriteCarousel(favoriteCharacters) {
         ${favoriteCharacters
           .map(
             (_, index) => `
-              <button class="${index === safeActiveIndex ? "is-active" : ""}" type="button" data-favorite-carousel-index="${index}" aria-label="Ir para favorito ${index + 1}"></button>
+              <button class="${index === safeActiveIndex ? "is-active" : ""}" type="button" aria-pressed="${index === safeActiveIndex}" data-favorite-carousel-index="${index}" aria-label="Ir para favorito ${index + 1}"></button>
             `
           )
           .join("")}
@@ -81,6 +81,7 @@ function renderDashboard() {
     return;
   }
 
+  const restoreFocus = captureControlFocus(root);
   const focusCharacter = getDashboardFocusCharacter();
   const favoriteCharacters = getDashboardFavoriteCharacters();
   const checklistCharacters = getDashboardChecklistCharacters();
@@ -207,6 +208,7 @@ function renderDashboard() {
     </div>
   `;
 
+  restoreFocus();
   bindChecklists(root);
 
   root.querySelectorAll("[data-endgame-summary-toggle]").forEach((button) => {

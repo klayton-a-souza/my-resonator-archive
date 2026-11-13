@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="../src/css/pages.css" />
   </head>
   <body>
+    <a class="skip-link" href="#mainContent">Pular para o conteúdo</a>
     <main class="app-shell">
       <header class="topbar">
         <a class="brand" href="../index.html" aria-label="Voltar para o dashboard">
@@ -26,13 +27,13 @@
         </a>
         <nav class="nav-links" aria-label="Navegacao principal">
           <a href="../index.html">Dashboard</a>
-          <a class="is-active" href="builds.html">Builds</a>
+          <a class="is-active" aria-current="page" href="builds.html">Builds</a>
           <a href="teams.html">Times</a>
           <a href="planning.html">Planejamento</a>
         </nav>
       </header>
 
-      <section class="page-heading" aria-labelledby="libraryTitle">
+      <section id="mainContent" tabindex="-1" class="page-heading" aria-labelledby="libraryTitle">
         <p class="eyebrow">Consulta rapida</p>
         <h1 id="libraryTitle">Biblioteca de Builds</h1>
         <p>Filtre por nome, elemento ou funcao e abra a build completa.</p>
@@ -53,7 +54,8 @@
         </label>
       </section>
 
-      <section id="buildLibraryRoot" class="library-grid" aria-live="polite"></section>
+      <p id="libraryResultCount" class="sr-only" role="status"></p>
+      <section id="buildLibraryRoot" class="library-grid" aria-busy="true"></section>
     </main>
 
     <script src="../src/data/characters.js"></script>

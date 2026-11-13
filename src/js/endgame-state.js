@@ -4,7 +4,8 @@ function loadEndgameProgress() {
   try {
     const savedProgress = localStorage.getItem(endgameProgressStorageKey);
 
-    return savedProgress ? JSON.parse(savedProgress) : {};
+    const parsed = savedProgress ? JSON.parse(savedProgress) : {};
+    return parsed && typeof parsed === "object" && !Array.isArray(parsed) ? parsed : {};
   } catch {
     return {};
   }
@@ -39,7 +40,7 @@ function getEndgameProgressPercent(progress) {
   const current = progress.current || 0;
   const total = progress.total || 1;
 
-  return Math.min(Math.round((current / total) * 100), 100);
+  return Math.max(0, Math.min(Math.round((current / Math.max(total, 1)) * 100), 100));
 }
 
 function updateEndgameProgress(mode, progress) {

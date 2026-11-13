@@ -704,8 +704,8 @@ function renderDataTools() {
   tools.className = "data-tools";
   tools.dataset.dataTools = "true";
   tools.innerHTML = `
-    <button class="data-tools-toggle" type="button" data-toggle-data-tools aria-expanded="false">Dados</button>
-    <div class="data-tools-menu" data-data-tools-menu hidden>
+    <button class="data-tools-toggle" type="button" data-toggle-data-tools aria-controls="dataToolsMenu" aria-expanded="false">Dados</button>
+    <div id="dataToolsMenu" class="data-tools-menu" data-data-tools-menu hidden>
       <button type="button" data-export-data>Exportar dados</button>
       <label>
         <span>Importar dados</span>
@@ -721,6 +721,17 @@ function renderDataTools() {
 
     menu.hidden = isOpen;
     event.currentTarget.setAttribute("aria-expanded", String(!isOpen));
+  });
+
+  tools.addEventListener("keydown", (event) => {
+    const menu = tools.querySelector("[data-data-tools-menu]");
+    if (event.key === "Escape" && !menu.hidden) {
+      menu.hidden = true;
+      const toggle = tools.querySelector("[data-toggle-data-tools]");
+      toggle.setAttribute("aria-expanded", "false");
+      toggle.focus();
+      event.preventDefault();
+    }
   });
 
   tools.querySelector("[data-export-data]").addEventListener("click", () => {
@@ -748,3 +759,27 @@ function renderDataTools() {
   });
 }
 
+
+// Renderers replace their controls; keep the active control usable by keyboard.
+function captureControlFocus(root) {
+  const active = document.activeElement;
+  if (!active || !root.contains(active)) return () => {};
+  const attributes = ["data-build-mode", "data-dashboard-action", "data-team-filter",
+    "data-team-move", "data-favorite-carousel-step", "data-favorite-carousel-index",
+    "data-endgame-summary-toggle", "data-progress-current", "data-progress-total"];
+  const attribute = attributes.find((name) => active.hasAttribute(name));
+  const value = attribute ? active.getAttribute(attribute) : null;
+  const id = active.id;
+  const teamId = active.closest("[data-team-id]")?.dataset.teamId;
+  const formKey = active.closest("[data-dashboard-endgame-form]")?.dataset.dashboardEndgameForm;
+  const isFocusSubmit = active.matches("[data-focus-form] button");
+  return () => {
+    let scope = root;
+    if (teamId) scope = [...root.querySelectorAll("[data-team-id]")].find((el) => el.dataset.teamId === teamId) || root;
+    if (formKey) scope = [...root.querySelectorAll("[data-dashboard-endgame-form]")].find((el) => el.dataset.dashboardEndgameForm === formKey) || root;
+    const target = id ? document.getElementById(id) : attribute
+      ? [...scope.querySelectorAll(`[${attribute}]`)].find((el) => el.getAttribute(attribute) === value)
+      : isFocusSubmit ? root.querySelector("[data-focus-form] button") : null;
+    target?.focus({ preventScroll: true });
+  };
+}
