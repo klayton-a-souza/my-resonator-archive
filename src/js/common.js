@@ -292,7 +292,16 @@ function getAccountDataUrl() {
 
 async function loadAccountBuilds() {
   // Browsers block fetch of JSON when pages are opened directly from disk.
-  if (window.location.protocol === "file:" && typeof localAccountBuilds !== "undefined") {
+  if (window.location.protocol === "file:") {
+    if (typeof localAccountBuilds === "undefined") {
+      await new Promise((resolve, reject) => {
+        const script = document.createElement("script");
+        script.src = assetUrl("src/data/account-builds.js");
+        script.onload = resolve;
+        script.onerror = () => reject(new Error("Falha ao carregar os dados locais."));
+        document.head.append(script);
+      });
+    }
     return localAccountBuilds;
   }
 

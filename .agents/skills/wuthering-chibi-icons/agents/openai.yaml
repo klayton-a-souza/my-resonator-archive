@@ -1,0 +1,4 @@
+interface:
+  display_name: "Wuthering Chibi Icons"
+  short_description: "Pesquisa referências e gera 2 chibis fiéis por personagem"
+  default_prompt: "Use $wuthering-chibi-icons para pesquisar o design oficial do personagem informado, validar as fontes, gerar duas opções 1:1 com o estilo das sete imagens e conferir a fidelidade visual antes da entrega."
